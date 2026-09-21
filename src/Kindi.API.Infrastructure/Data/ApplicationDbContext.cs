@@ -1,4 +1,4 @@
-﻿using Kindi.API.Domain.Entities;
+using Kindi.API.Domain.Entities;
 using Kindi.API.Domain.Interfaces;
 using Kindi.API.Shared.Common.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +20,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     DatabaseFacade IApplicationDbContext.Database => Database;
     public DbSet<PurchaseRequest> PurchaseRequests { get; set; }
 	public DbSet<GroupBuyingRequest> GroupBuyingRequests { get; set; }
+    public DbSet<GroupBuyingParticipant> GroupBuyingParticipants { get; set; }
 	public DbSet<OfferRequest> OfferRequests { get; set; }
     public DbSet<Collaborator> Collaborators { get; set; }
     public DbSet<User> Users { get; set; }

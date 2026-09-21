@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Kindi.API.Application.Common.Helpers;
 using Kindi.API.Application.Common.Interfaces;
 using Kindi.API.Application.DTOs.Requests;
@@ -250,13 +250,19 @@ public class CollaboratorService : ICollaboratorService
         return _mapper.Map<CollaboratorResponseDto>(collaborator);
     }
 
-    public async Task<PagedList<CollaboratorResponseDto>> GetPagedAsync(int page, int size, string? search = null)
+    public async Task<PagedList<CollaboratorResponseDto>> GetPagedAsync(
+        int page,
+        int size,
+        string? search = null,
+        CollaboratorStatus? status = null,
+        DateTime? fromDate = null,
+        DateTime? toDate = null)
     {
         Expression<Func<Collaborator, bool>> predicate = c => true;
         var searchUpper = search?.ToUpperInvariant();
         if (!string.IsNullOrEmpty(search))
         {
-            predicate = c => c.FullName.Contains(searchUpper) ||
+            predicate = c => (c.FullName.Contains(searchUpper) ||
                              c.Phone.Contains(searchUpper) ||
                              (c.Email != null && c.Email.Contains(searchUpper)) ||
                              (c.CollaboratorCode != null && c.CollaboratorCode.Contains(searchUpper)) ||
@@ -264,7 +270,16 @@ public class CollaboratorService : ICollaboratorService
                              // (bản ghi cũ) lẫn tên trong bảng BusinessFields (tên hiển thị).
                              (c.BusinessFieldName != null && c.BusinessFieldName.Contains(searchUpper)) ||
                              (c.BusinessField != null && c.BusinessField.Name.Contains(searchUpper)) ||
-                             (c.BusinessField != null && c.BusinessField.NormalizedName.Contains(searchUpper));
+                             (c.BusinessField != null && c.BusinessField.NormalizedName.Contains(searchUpper)))
+                             && (!status.HasValue || c.Status == status.Value)
+                             && (!fromDate.HasValue || c.CreatedAt >= fromDate.Value.Date.ToUniversalTime())
+                             && (!toDate.HasValue || c.CreatedAt < toDate.Value.Date.AddDays(1).ToUniversalTime());
+        }
+        else
+        {
+            predicate = c => (!status.HasValue || c.Status == status.Value)
+                        && (!fromDate.HasValue || c.CreatedAt >= fromDate.Value.Date.ToUniversalTime())
+                        && (!toDate.HasValue || c.CreatedAt < toDate.Value.Date.AddDays(1).ToUniversalTime());
         }
 
         var paged = await _repository.GetPagedWithIncludesAsync(
@@ -296,6 +311,33 @@ public class CollaboratorService : ICollaboratorService
                 }
             }
         }
+
+        return new PagedList<CollaboratorResponseDto>(
+            _mapper.Map<List<CollaboratorResponseDto>>(paged.Items),
+            paged.TotalCount,
+            paged.PageNumber,
+            paged.PageSize);
+    }
+
+    public async Task<PagedList<CollaboratorResponseDto>> GetPagedDeletedAsync(int page, int size, string? search = null)
+    {
+        var query = _repository.GetQueryable().IgnoreQueryFilters().Where(c => c.IsDeleted);
+
+        if (!string.IsNullOrEmpty(search))
+        {
+            var s = search.Trim();
+            query = query.Where(c =>
+                c.FullName.Contains(s) ||
+                c.Phone.Contains(s) ||
+                (c.Email != null && c.Email.Contains(s)) ||
+                (c.CollaboratorCode != null && c.CollaboratorCode.Contains(s)) ||
+                (c.BusinessFieldName != null && c.BusinessFieldName.Contains(s)) ||
+                (c.BusinessField != null && c.BusinessField.Name.Contains(s)));
+        }
+
+        query = query.Include(c => c.BusinessField).Include(c => c.Company).OrderByDescending(c => c.CreatedAt);
+
+        var paged = await PagedList<Collaborator>.CreateAsync(query, page, size);
 
         return new PagedList<CollaboratorResponseDto>(
             _mapper.Map<List<CollaboratorResponseDto>>(paged.Items),

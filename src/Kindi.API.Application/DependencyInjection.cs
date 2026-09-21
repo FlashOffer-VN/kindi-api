@@ -51,11 +51,9 @@ public static class DependencyInjection
 		// Register services
 		services.AddScoped<IPurchaseRequestService, PurchaseRequestService>();
 		services.AddScoped<IGroupBuyingRequestService, GroupBuyingRequestService>();
-		services.AddScoped<ICtvRegistrationService, CtvRegistrationService>();
 		services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IPartnerService, PartnerService>();
-        services.AddScoped<ICtvService, CtvService>();
         services.AddScoped<ISocialService, SocialService>();
         services.AddScoped<ICollaboratorService, CollaboratorService>();
         services.AddScoped<ISocialInteractionService, SocialInteractionService>();

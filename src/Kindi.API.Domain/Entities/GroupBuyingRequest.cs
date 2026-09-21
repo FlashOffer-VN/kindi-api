@@ -1,4 +1,4 @@
-﻿using Kindi.API.Domain.Enums;
+using Kindi.API.Domain.Enums;
 
 namespace Kindi.API.Domain.Entities;
 
@@ -20,6 +20,16 @@ public class GroupBuyingRequest : BaseEntity
 
     public Guid? BusinessFieldId { get; set; }
 
+    // ===== Duyệt / đóng nhóm (admin) =====
+    /// <summary>Thời điểm admin duyệt nhóm (Pending → Active).</summary>
+    public DateTime? ApprovedAt { get; set; }
+    /// <summary>User id của admin duyệt nhóm (lưu vết, không ràng buộc FK).</summary>
+    public Guid? ApprovedByUserId { get; set; }
+    /// <summary>Lý do đóng/hủy nhóm (admin nhập khi chuyển sang Completed/Cancelled).</summary>
+    public string? ClosedReason { get; set; }
+
+    // Navigation
     public virtual User User { get; set; } = null!;
-    public virtual BusinessField? BusinessField { get; set; } 
+    public virtual BusinessField? BusinessField { get; set; }
+    public virtual ICollection<GroupBuyingParticipant> Participants { get; set; } = new List<GroupBuyingParticipant>();
 }

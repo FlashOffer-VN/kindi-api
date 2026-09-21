@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
 	<!-- Common -->
 	<data name="CreateSuccess" xml:space="preserve">
@@ -776,5 +776,109 @@
   </data>
   <data name="AuditLogs_NotFound">
     <value>Không tìm thấy audit log</value>
+  </data>
+
+  <!-- Mua chung (group buying) - join / admin -->
+  <data name="GroupBuyingRequest_NotFound">
+    <value>Không tìm thấy yêu cầu mua chung</value>
+  </data>
+  <data name="GroupBuyingRequest_NotApprovedYet">
+    <value>Yêu cầu mua chung đang chờ admin duyệt</value>
+  </data>
+  <data name="GroupBuyingRequest_NotOpen">
+    <value>Yêu cầu mua chung đã đóng, không thể tham gia</value>
+  </data>
+  <data name="GroupBuyingRequest_ContactRequired">
+    <value>Vui lòng nhập họ tên và số điện thoại để tham gia</value>
+  </data>
+  <data name="GroupBuyingRequest_CreatorCannotJoin">
+    <value>Bạn là người mở nhóm mua chung này</value>
+  </data>
+  <data name="GroupBuyingRequest_CreatorCannotLeave">
+    <value>Người mở nhóm không thể hủy tham gia</value>
+  </data>
+  <data name="GroupBuyingRequest_AlreadyJoined">
+    <value>Bạn đã đăng ký tham gia nhóm mua chung này</value>
+  </data>
+  <data name="GroupBuyingRequest_NotParticipant">
+    <value>Bạn chưa tham gia nhóm mua chung này</value>
+  </data>
+  <data name="GroupBuyingRequest_LoginRequired">
+    <value>Vui lòng đăng nhập để thực hiện thao tác này</value>
+  </data>
+  <data name="GroupBuyingRequest_JoinSuccess">
+    <value>Đăng ký tham gia mua chung thành công</value>
+  </data>
+  <data name="GroupBuyingRequest_JoinSuccessNewAccount">
+    <value>Đăng ký tham gia mua chung thành công. Tài khoản của bạn đã được tạo với mật khẩu là số điện thoại</value>
+  </data>
+  <data name="GroupBuyingRequest_LeaveSuccess">
+    <value>Đã hủy tham gia mua chung</value>
+  </data>
+  <data name="GroupBuyingRequest_DetailRetrievedSuccess">
+    <value>Lấy chi tiết yêu cầu mua chung thành công</value>
+  </data>
+  <data name="GroupBuyingRequest_PublicRetrievedSuccess">
+    <value>Lấy danh sách mua chung thành công</value>
+  </data>
+  <data name="GroupBuyingRequest_StatusUpdatedSuccess">
+    <value>Cập nhật trạng thái mua chung thành công</value>
+  </data>
+  <data name="GroupBuyingRequest_UpdatedSuccess">
+    <value>Cập nhật yêu cầu mua chung thành công</value>
+  </data>
+  <data name="GroupBuyingRequest_DeletedSuccess">
+    <value>Đã hủy yêu cầu mua chung</value>
+  </data>
+  <data name="GroupBuyingRequest_ParticipantRemovedSuccess">
+    <value>Đã xóa người tham gia khỏi nhóm</value>
+  </data>
+  <data name="GroupBuyingRequest_ParticipantNotFound">
+    <value>Không tìm thấy người tham gia trong nhóm</value>
+  </data>
+  <data name="GroupBuyingRequest_CannotRemoveCreator">
+    <value>Không thể xóa người mở nhóm khỏi danh sách tham gia</value>
+  </data>
+  <data name="GroupBuyingRequest_InvalidStatus">
+    <value>Trạng thái mua chung không hợp lệ</value>
+  </data>
+  <data name="GroupBuyingRequest_InvalidStatusMessage">
+    <value>Trạng thái chỉ nhận: Pending, Active, Completed, Cancelled</value>
+  </data>
+  <data name="GroupBuyingRequest_InvalidStatusTransition">
+    <value>Không thể chuyển trạng thái từ {0} sang {1}</value>
+  </data>
+  <data name="GroupBuyingRequest_TargetLessThanCurrent">
+    <value>Số người mục tiêu không được nhỏ hơn số người đã tham gia</value>
+  </data>
+  <data name="GroupBuyingRequest_ListRetrievedSuccess">
+    <value>Lấy danh sách yêu cầu mua chung thành công</value>
+  </data>
+  <data name="GroupBuyingRequest_YouAreCreator">
+    <value>Bạn là người mở nhóm mua chung này</value>
+  </data>
+  <data name="GroupBuyingRequest_Cancelled">
+    <value>Yêu cầu mua chung đã bị hủy</value>
+  </data>
+  <data name="GroupBuyingRequest_Completed">
+    <value>Yêu cầu mua chung đã hoàn thành</value>
+  </data>
+  <data name="GroupBuyingRequest_CancelReasonRequired">
+    <value>Vui lòng nhập lý do khi hủy yêu cầu mua chung</value>
+  </data>
+  <data name="GroupBuyingRequest_ReasonMaxLength">
+    <value>Lý do tối đa 500 ký tự</value>
+  </data>
+  <data name="GroupBuyingRequest_FullNameMaxLength">
+    <value>Họ và tên tối đa 100 ký tự</value>
+  </data>
+  <data name="GroupBuyingRequest_EmailMaxLength">
+    <value>Email tối đa 100 ký tự</value>
+  </data>
+  <data name="GroupBuyingRequest_NoteMaxLength">
+    <value>Ghi chú tối đa 1000 ký tự</value>
+  </data>
+  <data name="GroupBuyingRequest_ProductNameMaxLength">
+    <value>Tên sản phẩm tối đa 255 ký tự</value>
   </data>
 </root>

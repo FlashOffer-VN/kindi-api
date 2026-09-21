@@ -1,6 +1,7 @@
-﻿using Kindi.API.Application.Common.Interfaces;
+using Kindi.API.Application.Common.Interfaces;
 using Kindi.API.Application.DTOs.Requests;
 using Kindi.API.Application.Resources;
+using Kindi.API.Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
@@ -47,9 +48,29 @@ public class CollaboratorsController : ApiControllerBase
     /// Lấy danh sách CTV phân trang
     /// </summary>
     [HttpGet]
-    public async Task<IActionResult> GetPaged([FromQuery] int page = 1, [FromQuery] int size = 10, [FromQuery] string? search = null)
+    public async Task<IActionResult> GetPaged(
+        [FromQuery] int page = 1,
+        [FromQuery] int size = 10,
+        [FromQuery] string? search = null,
+        [FromQuery] CollaboratorStatus? status = null,
+        [FromQuery] DateTime? fromDate = null,
+        [FromQuery] DateTime? toDate = null)
     {
-        var result = await _collaboratorService.GetPagedAsync(page, size, search);
+        var result = await _collaboratorService.GetPagedAsync(page, size, search, status, fromDate, toDate);
+        return OkPaged(result);
+    }
+
+    /// <summary>
+    /// Danh sách cộng tác viên đã xóa mềm (Admin)
+    /// </summary>
+    [HttpGet("deleted")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> GetDeleted(
+        [FromQuery] int page = 1,
+        [FromQuery] int size = 10,
+        [FromQuery] string? search = null)
+    {
+        var result = await _collaboratorService.GetPagedDeletedAsync(page, size, search);
         return OkPaged(result);
     }
 
