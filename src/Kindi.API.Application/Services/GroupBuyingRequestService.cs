@@ -111,7 +111,8 @@ public class GroupBuyingRequestService : IGroupBuyingRequestService
     public async Task<PagedList<GroupBuyingFeedItemDto>> GetPublicPagedAsync(GetPublicGroupBuyingRequestsQueryDto query)
     {
         var me = GetCurrentUserId();
-        var search = query.Search?.Trim();
+        // ToLower() + Contains → EF dịch thành lower(col) LIKE '%keyword%' (tìm không phân biệt hoa/thường)
+        var search = NormalizeFilter(query.Search)?.ToLowerInvariant();
 
         // Chỉ nhóm đã duyệt (Active) mới lên tab công khai; nhóm của chính mình vẫn thấy
         // (kèm trạng thái "Chờ duyệt") để người tạo theo dõi.
@@ -124,9 +125,9 @@ public class GroupBuyingRequestService : IGroupBuyingRequestService
                             && (x.Status == GroupBuyingStatus.Pending || x.Status == GroupBuyingStatus.Active)))
             .WhereIf(query.MineOnly && me != null, x => x.UserId == me!.Value)
             .WhereIf(!string.IsNullOrEmpty(search), x =>
-                x.ProductName.Contains(search!) ||
-                (x.Note != null && x.Note.Contains(search!)) ||
-                (x.GroupBuyingRequestCode != null && x.GroupBuyingRequestCode.Contains(search!)));
+                x.ProductName.ToLower().Contains(search!) ||
+                (x.Note != null && x.Note.ToLower().Contains(search!)) ||
+                (x.GroupBuyingRequestCode != null && x.GroupBuyingRequestCode.ToLower().Contains(search!)));
 
         var paged = await q.ToPagedListAsync(
             query.Page, query.PageSize,
@@ -319,22 +320,23 @@ public class GroupBuyingRequestService : IGroupBuyingRequestService
         if (!isAdmin && string.IsNullOrEmpty(userId))
             return new PagedList<GroupBuyingRequestResponseDto>(new List<GroupBuyingRequestResponseDto>(), 0, query.Page, query.PageSize);
 
-        var search = query.Search?.Trim();
+        // ToLower() + Contains → EF dịch thành lower(col) LIKE '%keyword%' (tìm không phân biệt hoa/thường)
+        var search = NormalizeFilter(query.Search)?.ToLowerInvariant();
 
         var statusFilter = GroupBuyingStatus.Pending;
-        var hasStatusFilter = !string.IsNullOrEmpty(query.Status)
-            && Enum.TryParse(query.Status, true, out statusFilter);
+        var hasStatusFilter = !string.IsNullOrEmpty(NormalizeFilter(query.Status))
+            && Enum.TryParse(NormalizeFilter(query.Status), true, out statusFilter);
 
         var q = _queryService.GetQueryableNoTracking<GroupBuyingRequest>()
             .Include(x => x.BusinessField)
             .WhereIf(userId != null, x => x.UserId == Guid.Parse(userId!))
             .WhereIf(hasStatusFilter, x => x.Status == statusFilter)
             .WhereIf(!string.IsNullOrEmpty(search), x =>
-                (x.GroupBuyingRequestCode != null && x.GroupBuyingRequestCode.Contains(search!)) ||
-                x.ProductName.Contains(search!) ||
-                x.FullName.Contains(search!) ||
-                x.Phone.Contains(search!) ||
-                (x.Email != null && x.Email.Contains(search!)));
+                (x.GroupBuyingRequestCode != null && x.GroupBuyingRequestCode.ToLower().Contains(search!)) ||
+                x.ProductName.ToLower().Contains(search!) ||
+                x.FullName.ToLower().Contains(search!) ||
+                x.Phone.ToLower().Contains(search!) ||
+                (x.Email != null && x.Email.ToLower().Contains(search!)));
 
         var result = await q.ToPagedListAsync(
             query.Page, query.PageSize,
@@ -444,6 +446,37 @@ public class GroupBuyingRequestService : IGroupBuyingRequestService
     // =====================================================================
     // HELPERS
     // =====================================================================
+
+    /// <summary>
+    /// Bọc keyword thành pattern LIKE, escape % _ \ để ký tự người dùng gõ không bị hiểu là wildcard.
+    /// </summary>
+    private static string? LikePattern(string? keyword)
+    {
+        if (string.IsNullOrWhiteSpace(keyword)) return null;
+
+        var escaped = keyword
+            .Replace("\\", "\\\\")
+            .Replace("%", "\\%")
+            .Replace("_", "\\_");
+
+        return $"%{escaped}%";
+    }
+
+    /// <summary>
+    /// Chuẩn hoá filter dạng chuỗi: coi các giá trị rỗng / "undefined" / "null" / "nan" là KHÔNG lọc.
+    /// Tránh trường hợp client serialize param rỗng thành chuỗi "undefined" rồi lọc sai dữ liệu.
+    /// </summary>
+    private static string? NormalizeFilter(string? value)
+    {
+        if (string.IsNullOrWhiteSpace(value)) return null;
+
+        var trimmed = value.Trim();
+        return trimmed.ToLowerInvariant() switch
+        {
+            "undefined" or "null" or "nan" or "all" => null,
+            _ => trimmed
+        };
+    }
 
     private Guid? GetCurrentUserId()
         => string.IsNullOrEmpty(_currentUserService.UserId)
