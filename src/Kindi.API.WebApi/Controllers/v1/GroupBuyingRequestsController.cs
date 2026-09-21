@@ -1,4 +1,4 @@
-﻿using Kindi.API.Application.Common.Interfaces;
+using Kindi.API.Application.Common.Interfaces;
 using Kindi.API.Application.DTOs.requests;
 using Kindi.API.Application.Resources;
 using Kindi.API.Domain.Enums;
@@ -24,15 +24,67 @@ public class GroupBuyingRequestsController : ApiControllerBase
         _localizer = localizer;
     }
 
+    /// <summary>
+    /// Tạo yêu cầu mua chung mới (khách chưa đăng nhập vẫn tạo được — hệ thống tự tạo User).
+    /// </summary>
     [HttpPost]
+    [AllowAnonymous]
     public async Task<IActionResult> CreateAsync([FromBody] CreateGroupBuyingRequestDto request)
     {
         var response = await _service.CreateAsync(request);
         return Ok(response, _localizer["GroupBuyingRequest_CreateSuccess"]);
     }
 
+    /// <summary>
+    /// Danh sách mua chung cho tab "Mua chung" trên trang social:
+    /// nhóm đã duyệt + nhóm do chính người gọi mở (kể cả đang chờ duyệt).
+    /// </summary>
+    [HttpGet("public")]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetPublicList([FromQuery] GetPublicGroupBuyingRequestsQueryDto query)
+    {
+        var result = await _service.GetPublicPagedAsync(query);
+        return OkPaged(result, _localizer["GroupBuyingRequest_PublicRetrievedSuccess"]);
+    }
+
+    /// <summary>
+    /// Chi tiết mua chung cho người dùng (thông tin liên hệ được che nếu chưa đăng nhập).
+    /// </summary>
+    [HttpGet("{id:guid}/public")]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetPublicDetail(Guid id)
+    {
+        var result = await _service.GetPublicDetailAsync(id);
+        return Ok(result, _localizer["GroupBuyingRequest_DetailRetrievedSuccess"]);
+    }
+
+    /// <summary>
+    /// Đăng ký tham gia nhóm mua chung. Khách chưa đăng nhập gửi kèm họ tên/SĐT/Zalo/email —
+    /// hệ thống tạo tài khoản (username user&lt;sđt&gt;, mật khẩu = sđt) và lưu vào Collaborators.
+    /// </summary>
+    [HttpPost("{id:guid}/join")]
+    [AllowAnonymous]
+    public async Task<IActionResult> Join(Guid id, [FromBody] JoinGroupBuyingRequestDto request)
+    {
+        var result = await _service.JoinAsync(id, request);
+        return Ok(result, result.Message);
+    }
+
+    /// <summary>
+    /// Hủy tham gia nhóm mua chung (người đang đăng nhập).
+    /// </summary>
+    [HttpDelete("{id:guid}/join")]
+    [Authorize]
+    public async Task<IActionResult> Leave(Guid id)
+    {
+        var result = await _service.LeaveAsync(id);
+        return Ok(result, _localizer["GroupBuyingRequest_LeaveSuccess"]);
+    }
+
+    // ===================== ADMIN =====================
+
     [Authorize(Roles = "Admin")]
-    [HttpGet] 
+    [HttpGet]
     public async Task<IActionResult> GetList([FromQuery] GetGroupBuyingRequestsQueryDto query)
     {
         if (!string.IsNullOrEmpty(query.Status) && !Enum.TryParse<GroupBuyingStatus>(query.Status, true, out _))
@@ -43,5 +95,57 @@ public class GroupBuyingRequestsController : ApiControllerBase
 
         var result = await _service.GetPagedAsync(query);
         return OkPaged(result, _localizer["GroupBuyingRequest_ListRetrievedSuccess"]);
+    }
+
+    [Authorize(Roles = "Admin")]
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> GetDetail(Guid id)
+    {
+        var result = await _service.GetDetailAsync(id);
+        return Ok(result, _localizer["GroupBuyingRequest_DetailRetrievedSuccess"]);
+    }
+
+    /// <summary>
+    /// Duyệt / đóng / hủy yêu cầu mua chung.
+    /// </summary>
+    [Authorize(Roles = "Admin")]
+    [HttpPut("{id:guid}/status")]
+    public async Task<IActionResult> UpdateStatus(Guid id, [FromBody] UpdateGroupBuyingStatusDto request)
+    {
+        var result = await _service.UpdateStatusAsync(id, request);
+        return Ok(result, _localizer["GroupBuyingRequest_StatusUpdatedSuccess"]);
+    }
+
+    /// <summary>
+    /// Sửa thông tin yêu cầu mua chung (admin).
+    /// </summary>
+    [Authorize(Roles = "Admin")]
+    [HttpPut("{id:guid}")]
+    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateGroupBuyingRequestDto request)
+    {
+        var result = await _service.UpdateAsync(id, request);
+        return Ok(result, _localizer["GroupBuyingRequest_UpdatedSuccess"]);
+    }
+
+    /// <summary>
+    /// Xóa một người khỏi nhóm mua chung (không xóa được người mở nhóm).
+    /// </summary>
+    [Authorize(Roles = "Admin")]
+    [HttpDelete("{id:guid}/participants/{participantId:guid}")]
+    public async Task<IActionResult> RemoveParticipant(Guid id, Guid participantId)
+    {
+        var result = await _service.RemoveParticipantAsync(id, participantId);
+        return Ok(result, _localizer["GroupBuyingRequest_ParticipantRemovedSuccess"]);
+    }
+
+    /// <summary>
+    /// Hủy yêu cầu mua chung (xóa mềm).
+    /// </summary>
+    [Authorize(Roles = "Admin")]
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        await _service.DeleteAsync(id);
+        return Ok(new { message = _localizer["GroupBuyingRequest_DeletedSuccess"] });
     }
 }

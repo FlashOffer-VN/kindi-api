@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
 	<!-- Common -->
 	<data name="CreateSuccess" xml:space="preserve">
@@ -838,5 +838,106 @@
   </data>
   <data name="AuditLogs_NotFound">
     <value>Audit log not found</value>
+  </data>
+
+  <!-- Mua chung (group buying) - join / admin -->
+  <data name="GroupBuyingRequest_NotFound">
+    <value>Group buying request not found</value>
+  </data>
+  <data name="GroupBuyingRequest_NotApprovedYet">
+    <value>The group buying request is waiting for approval</value>
+  </data>
+  <data name="GroupBuyingRequest_NotOpen">
+    <value>This group buying request is closed</value>
+  </data>
+  <data name="GroupBuyingRequest_ContactRequired">
+    <value>Full name and phone number are required to join</value>
+  </data>
+  <data name="GroupBuyingRequest_CreatorCannotJoin">
+    <value>You are the creator of this group buying request</value>
+  </data>
+  <data name="GroupBuyingRequest_CreatorCannotLeave">
+    <value>The creator cannot leave the group</value>
+  </data>
+  <data name="GroupBuyingRequest_AlreadyJoined">
+    <value>You already joined this group buying request</value>
+  </data>
+  <data name="GroupBuyingRequest_NotParticipant">
+    <value>You are not a participant of this group buying request</value>
+  </data>
+  <data name="GroupBuyingRequest_LoginRequired">
+    <value>Please sign in to continue</value>
+  </data>
+  <data name="GroupBuyingRequest_JoinSuccess">
+    <value>Joined the group buying request successfully</value>
+  </data>
+  <data name="GroupBuyingRequest_JoinSuccessNewAccount">
+    <value>Joined successfully. Your account was created with your phone number as the password</value>
+  </data>
+  <data name="GroupBuyingRequest_LeaveSuccess">
+    <value>Left the group buying request</value>
+  </data>
+  <data name="GroupBuyingRequest_DetailRetrievedSuccess">
+    <value>Group buying request retrieved successfully</value>
+  </data>
+  <data name="GroupBuyingRequest_PublicRetrievedSuccess">
+    <value>Group buying list retrieved successfully</value>
+  </data>
+  <data name="GroupBuyingRequest_StatusUpdatedSuccess">
+    <value>Group buying status updated successfully</value>
+  </data>
+  <data name="GroupBuyingRequest_UpdatedSuccess">
+    <value>Group buying request updated successfully</value>
+  </data>
+  <data name="GroupBuyingRequest_DeletedSuccess">
+    <value>Group buying request deleted</value>
+  </data>
+  <data name="GroupBuyingRequest_ParticipantRemovedSuccess">
+    <value>Participant removed from the group</value>
+  </data>
+  <data name="GroupBuyingRequest_ParticipantNotFound">
+    <value>Participant not found</value>
+  </data>
+  <data name="GroupBuyingRequest_CannotRemoveCreator">
+    <value>The creator cannot be removed from the participant list</value>
+  </data>
+  <data name="GroupBuyingRequest_InvalidStatus">
+    <value>Invalid group buying status</value>
+  </data>
+  <data name="GroupBuyingRequest_InvalidStatusMessage">
+    <value>Status must be one of: Pending, Active, Completed, Cancelled</value>
+  </data>
+  <data name="GroupBuyingRequest_InvalidStatusTransition">
+    <value>Cannot change status from {0} to {1}</value>
+  </data>
+  <data name="GroupBuyingRequest_TargetLessThanCurrent">
+    <value>Target people count cannot be less than the current participant count</value>
+  </data>
+  <data name="GroupBuyingRequest_ListRetrievedSuccess">
+    <value>Group buying requests retrieved successfully</value>
+  </data>
+  <data name="GroupBuyingRequest_YouAreCreator">
+    <value>You created this group buying request</value>
+  </data>
+  <data name="GroupBuyingRequest_Cancelled">
+    <value>This group buying request was cancelled</value>
+  </data>
+  <data name="GroupBuyingRequest_Completed">
+    <value>This group buying request is completed</value>
+  </data>
+  <data name="GroupBuyingRequest_CancelReasonRequired">
+    <value>Please provide a reason when cancelling</value>
+  </data>
+  <data name="GroupBuyingRequest_ReasonMaxLength">
+    <value>Reason must not exceed 500 characters</value>
+  </data>
+  <data name="GroupBuyingRequest_FullNameMaxLength">
+    <value>Full name must not exceed 100 characters</value>
+  </data>
+  <data name="GroupBuyingRequest_EmailMaxLength">
+    <value>Email must not exceed 100 characters</value>
+  </data>
+  <data name="GroupBuyingRequest_NoteMaxLength">
+    <value>Note must not exceed 1000 characters</value>
   </data>
 </root>
