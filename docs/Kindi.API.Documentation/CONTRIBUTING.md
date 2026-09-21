@@ -1,0 +1,48 @@
+﻿# Contributing to Kindi.API
+
+Thank you for considering contributing to this project!
+
+## How to Contribute
+
+### For AI Assistants
+
+1. Read docs/Kindi.API.Documentation/00-ai-rules.md before starting
+2. Follow the template in 11-how-to-add-new-api.md
+3. Report changes using the format in RULE 2
+4. Always run dotnet build after making changes
+5. Update feature documentation in Features/ folder
+
+### For Human Developers
+
+1. Fork the repository
+2. Create a feature branch (git checkout -b feature/amazing-feature)
+3. Commit your changes (git commit -m 'feat: add amazing feature')
+4. Push to the branch (git push origin feature/amazing-feature)
+5. Open a Pull Request
+
+## Code Style
+
+- Follow docs/Kindi.API.Documentation/12-code-conventions.md
+- Use PascalCase for classes and methods
+- Use camelCase for parameters and local variables
+- Use _camelCase for private fields
+- Add [AllowAnonymous] to public GET endpoints
+
+### Testing and PR checklist
+
+- Run dotnet build and dotnet test locally before opening a PR.
+- Ensure new validators that need localization follow the docs: call AddLocalization() before AddControllers().AddFluentValidation().
+- If your change modifies package versions, update Directory.Packages.props and explain version decisions in the PR description.
+- Add or update tests for new behavior; integration tests should follow the BaseIntegrationTest pattern (deterministic InMemory database name and seeding via Factory.Server.Services.CreateScope()).
+- For mapping changes, avoid mixing major AutoMapper versions; note chosen version in PR.
+
+## Pull Request Process
+
+1. Ensure your code builds without warnings
+2. Update documentation if needed
+3. Add tests for new features
+4. Request review from maintainers
+
+## License
+
+Internal Use Only

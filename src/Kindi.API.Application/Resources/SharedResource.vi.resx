@@ -1,0 +1,780 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<!-- Common -->
+	<data name="CreateSuccess" xml:space="preserve">
+    <value>Tạo thành công</value>
+  </data>
+	<data name="NotFound" xml:space="preserve">
+    <value>Không tìm thấy</value>
+  </data>
+	<data name="EntityNotFound" xml:space="preserve">
+    <value>{0} với ID: {1} không tìm thấy</value>
+  </data>
+	<data name="ValidationError" xml:space="preserve">
+    <value>Dữ liệu không hợp lệ</value>
+  </data>
+	<data name="ValidationFailed" xml:space="preserve">
+    <value>Xác thực thất bại</value>
+  </data>
+
+	<!-- Purchase Request -->
+	<data name="ProductNameRequired" xml:space="preserve">
+    <value>Tên sản phẩm là bắt buộc</value>
+  </data>
+	<data name="ProductNameMaxLength" xml:space="preserve">
+    <value>Tên sản phẩm không được vượt quá 500 ký tự</value>
+  </data>
+	<data name="QuantityMin" xml:space="preserve">
+    <value>Số lượng phải ít nhất 1</value>
+  </data>
+	<data name="FullNameRequired" xml:space="preserve">
+    <value>Họ tên là bắt buộc</value>
+  </data>
+	<data name="FullNameMaxLength" xml:space="preserve">
+    <value>Họ tên không được vượt quá 200 ký tự</value>
+  </data>
+	<data name="PhoneRequired" xml:space="preserve">
+    <value>Số điện thoại là bắt buộc</value>
+  </data>
+	<data name="PhoneInvalid" xml:space="preserve">
+    <value>Số điện thoại phải có 10-11 chữ số</value>
+  </data>
+	<data name="EmailInvalid" xml:space="preserve">
+    <value>Email không đúng định dạng</value>
+  </data>
+	<data name="EmailMaxLength" xml:space="preserve">
+    <value>Email không được vượt quá 100 ký tự</value>
+  </data>
+	<data name="ExpectedPricePositive" xml:space="preserve">
+    <value>Giá kỳ vọng phải lớn hơn 0</value>
+  </data>
+	<data name="PurchaseRequestsRetrievedSuccess" xml:space="preserve">
+    <value>Lấy danh sách yêu cầu mua thành công</value>
+  </data>
+	<data name="PurchaseRequestNotFound" xml:space="preserve">
+    <value>Không tìm thấy yêu cầu mua</value>
+  </data>
+	<data name="UpdateStatusSuccess" xml:space="preserve">
+    <value>Cập nhật trạng thái thành công</value>
+  </data>
+	<data name="RestoreSuccess" xml:space="preserve">
+    <value>Khôi phục thành công</value>
+  </data>
+	<data name="FileEmpty" xml:space="preserve">
+    <value>File không được rỗng</value>
+  </data>
+	<data name="FileUploadSuccess" xml:space="preserve">
+    <value>Upload thành công</value>
+  </data>
+
+	<!-- Purchase Request Status -->
+	<data name="PurchaseRequestStatus_Pending" xml:space="preserve">
+    <value>Chờ xử lý</value>
+  </data>
+	<data name="PurchaseRequestStatus_Contacted" xml:space="preserve">
+    <value>Đã liên hệ</value>
+  </data>
+	<data name="PurchaseRequestStatus_Completed" xml:space="preserve">
+    <value>Hoàn thành</value>
+  </data>
+	<data name="StatusInvalid" xml:space="preserve">
+    <value>Trạng thái phải là Pending, Contacted hoặc Completed</value>
+  </data>
+	<data name="InvalidStatus" xml:space="preserve">
+    <value>Giá trị trạng thái không hợp lệ</value>
+  </data>
+
+	<!-- Export Purchase Requests -->
+	<data name="ExportPurchaseRequestsTitle" xml:space="preserve">
+    <value>Danh sách yêu cầu mua</value>
+  </data>
+	<data name="ExportPurchaseRequests_STT" xml:space="preserve">
+    <value>#</value>
+  </data>
+	<data name="ExportPurchaseRequests_ProductName" xml:space="preserve">
+    <value>Tên sản phẩm</value>
+  </data>
+	<data name="ExportPurchaseRequests_Quantity" xml:space="preserve">
+    <value>Số lượng</value>
+  </data>
+	<data name="ExportPurchaseRequests_ExpectedPrice" xml:space="preserve">
+    <value>Giá kỳ vọng</value>
+  </data>
+	<data name="ExportPurchaseRequests_FullName" xml:space="preserve">
+    <value>Họ tên</value>
+  </data>
+	<data name="ExportPurchaseRequests_Phone" xml:space="preserve">
+    <value>Số điện thoại</value>
+  </data>
+	<data name="ExportPurchaseRequests_Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+	<data name="ExportPurchaseRequests_Status" xml:space="preserve">
+    <value>Trạng thái</value>
+  </data>
+	<data name="ExportPurchaseRequests_CreatedAt" xml:space="preserve">
+    <value>Ngày tạo</value>
+  </data>
+
+	<!-- Group Buying -->
+	<data name="CreateGroupBuyingRequestSuccess" xml:space="preserve">
+    <value>Tạo yêu cầu mua chung thành công</value>
+  </data>
+	<data name="TargetPeopleCountInvalid" xml:space="preserve">
+    <value>Số người mục tiêu phải từ 2 đến 100</value>
+  </data>
+	<data name="TargetPriceInvalid" xml:space="preserve">
+    <value>Giá mục tiêu phải lớn hơn 0</value>
+  </data>
+	<data name="NoteMaxLength" xml:space="preserve">
+    <value>Ghi chú không được vượt quá 1000 ký tự</value>
+  </data>
+	<data name="GroupBuyingRequestsRetrievedSuccess" xml:space="preserve">
+    <value>Lấy danh sách yêu cầu mua chung thành công</value>
+  </data>
+
+	<!-- Offer Request -->
+	<data name="CreateOfferRequestSuccess" xml:space="preserve">
+    <value>Tạo yêu cầu offer thành công! Mã giảm giá sẽ được gửi qua Zalo trong 24h</value>
+  </data>
+	<data name="OfferRequestNotFound" xml:space="preserve">
+    <value>Không tìm thấy yêu cầu offer</value>
+  </data>
+	<data name="OfferRequestListRetrievedSuccess" xml:space="preserve">
+    <value>Lấy danh sách yêu cầu offer thành công</value>
+  </data>
+	<data name="OfferRequest_DeleteSuccess" xml:space="preserve">
+    <value>Xóa yêu cầu offer thành công</value>
+  </data>
+	<data name="SelectedOfferRequired" xml:space="preserve">
+    <value>Offer được chọn là bắt buộc</value>
+  </data>
+	<data name="SelectedOfferMaxLength" xml:space="preserve">
+    <value>Offer được chọn không được vượt quá 500 ký tự</value>
+  </data>
+	<data name="ZaloRequired" xml:space="preserve">
+    <value>Zalo là bắt buộc để nhận mã</value>
+  </data>
+	<data name="ZaloMaxLength" xml:space="preserve">
+    <value>Zalo không được vượt quá 50 ký tự</value>
+  </data>
+	<data name="SalesChannelMaxLength" xml:space="preserve">
+    <value>Kênh bán hàng không được vượt quá 100 ký tự</value>
+  </data>
+	<data name="ExperienceMaxLength" xml:space="preserve">
+    <value>Kinh nghiệm không được vượt quá 1000 ký tự</value>
+  </data>
+
+	<!-- CTV Registration -->
+	<data name="CreateCtvRegistrationSuccess" xml:space="preserve">
+    <value>Tạo đăng ký CTV thành công! Chúng tôi sẽ liên hệ sớm</value>
+  </data>
+	<data name="CtvRegistrationListRetrievedSuccess" xml:space="preserve">
+    <value>Lấy danh sách đăng ký CTV thành công</value>
+  </data>
+	<data name="CtvRegistrationApprovedSuccess" xml:space="preserve">
+    <value>Duyệt đăng ký CTV thành công</value>
+  </data>
+	<data name="CtvRegistrationNotFound" xml:space="preserve">
+    <value>Không tìm thấy đăng ký CTV</value>
+  </data>
+	<data name="CtvRegistrationAlreadyApproved" xml:space="preserve">
+    <value>Đăng ký CTV đã được duyệt trước đó</value>
+  </data>
+
+	<!-- Auth -->
+	<data name="UsernameRequired" xml:space="preserve">
+    <value>Tên đăng nhập là bắt buộc</value>
+  </data>
+	<data name="UsernameMinLength" xml:space="preserve">
+    <value>Tên đăng nhập phải có ít nhất 3 ký tự</value>
+  </data>
+	<data name="UsernameMaxLength" xml:space="preserve">
+    <value>Tên đăng nhập không được vượt quá 50 ký tự</value>
+  </data>
+	<data name="PasswordRequired" xml:space="preserve">
+    <value>Mật khẩu là bắt buộc</value>
+  </data>
+	<data name="PasswordMinLength" xml:space="preserve">
+    <value>Mật khẩu phải có ít nhất 6 ký tự</value>
+  </data>
+	<data name="LoginSuccess" xml:space="preserve">
+    <value>Đăng nhập thành công</value>
+  </data>
+	<data name="InvalidCredentials" xml:space="preserve">
+    <value>Tên đăng nhập hoặc mật khẩu không đúng</value>
+  </data>
+	<data name="LogoutSuccess" xml:space="preserve">
+    <value>Đăng xuất thành công</value>
+  </data>
+	<data name="InvalidToken" xml:space="preserve">
+    <value>Token không hợp lệ</value>
+  </data>
+	<data name="TokenExpiredOrInvalid" xml:space="preserve">
+    <value>Token đã hết hạn hoặc không hợp lệ</value>
+  </data>
+	<data name="TokenRefreshed" xml:space="preserve">
+    <value>Làm mới token thành công</value>
+  </data>
+	<data name="ChangePasswordSuccess" xml:space="preserve">
+    <value>Đổi mật khẩu thành công</value>
+  </data>
+	<data name="ChangePasswordFailed" xml:space="preserve">
+    <value>Đổi mật khẩu thất bại</value>
+  </data>
+	<data name="ChangePasswordErrorMessage" xml:space="preserve">
+    <value>Mật khẩu hiện tại không đúng hoặc mật khẩu mới không hợp lệ</value>
+  </data>
+	<data name="ResetLinkSent" xml:space="preserve">
+    <value>Đường dẫn đặt lại mật khẩu đã được gửi đến email của bạn</value>
+  </data>
+	<data name="ResetPasswordSuccess" xml:space="preserve">
+    <value>Đặt lại mật khẩu thành công</value>
+  </data>
+	<data name="ResetPasswordFailed" xml:space="preserve">
+    <value>Đặt lại mật khẩu thất bại</value>
+  </data>
+	<data name="UserInfoRetrieved" xml:space="preserve">
+    <value>Lấy thông tin người dùng thành công</value>
+  </data>
+	<data name="UserNotFound" xml:space="preserve">
+    <value>Không tìm thấy người dùng</value>
+  </data>
+	<data name="InvalidUser" xml:space="preserve">
+    <value>Người dùng không hợp lệ</value>
+  </data>
+	<data name="UserNotAuthenticated" xml:space="preserve">
+    <value>Người dùng chưa xác thực</value>
+  </data>
+
+	<!-- Dashboard & Security -->
+	<data name="DashboardSuccess" xml:space="preserve">
+    <value>Lấy thống kê dashboard thành công</value>
+  </data>
+	<data name="CrmDashboardSuccess" xml:space="preserve">
+    <value>Lấy thống kê CRM thành công</value>
+  </data>
+	<data name="UnauthorizedMessage" xml:space="preserve">
+    <value>Không được phép - Token thiếu hoặc không hợp lệ</value>
+  </data>
+	<data name="AuthenticationRequired" xml:space="preserve">
+    <value>Yêu cầu xác thực. Vui lòng đăng nhập để tiếp tục</value>
+  </data>
+	<data name="ForbiddenMessage" xml:space="preserve">
+    <value>Bị cấm - Bạn không có quyền truy cập</value>
+  </data>
+	<data name="AccessDenied" xml:space="preserve">
+    <value>Từ chối truy cập. Không tìm thấy vai trò yêu cầu</value>
+  </data>
+
+	<!-- Paging -->
+	<data name="PageMin" xml:space="preserve">
+    <value>Số trang phải ít nhất 1</value>
+  </data>
+	<data name="PageSizeRange" xml:space="preserve">
+    <value>Kích thước trang phải từ 1 đến 100</value>
+  </data>
+
+	<!-- Validation -->
+	<data name="FromDateMustBeBeforeToDate" xml:space="preserve">
+    <value>Ngày bắt đầu phải nhỏ hơn hoặc bằng ngày kết thúc</value>
+  </data>
+  <!-- Validation - Personal Info -->
+  <data name="PartnerFullNameRequired" xml:space="preserve"><value>Họ và tên là bắt buộc</value></data>
+  <data name="PartnerFullNameMinLength" xml:space="preserve"><value>Họ và tên phải có ít nhất 2 ký tự</value></data>
+  <data name="PartnerFullNameMaxLength" xml:space="preserve"><value>Họ và tên không được vượt quá 100 ký tự</value></data>
+  <data name="PartnerEmailRequired" xml:space="preserve"><value>Email là bắt buộc</value></data>
+  <data name="PartnerEmailInvalid" xml:space="preserve"><value>Email không hợp lệ</value></data>
+  <data name="PartnerPhoneRequired" xml:space="preserve"><value>Số điện thoại là bắt buộc</value></data>
+  <data name="PartnerPhoneInvalid" xml:space="preserve"><value>Số điện thoại không hợp lệ (VD: 0912345678)</value></data>
+  <data name="PartnerPositionRequired" xml:space="preserve"><value>Chức vụ là bắt buộc</value></data>
+  <data name="PartnerPositionMinLength" xml:space="preserve"><value>Chức vụ phải có ít nhất 2 ký tự</value></data>
+
+  <!-- Validation - Business Info -->
+  <data name="PartnerCompanyNameRequired" xml:space="preserve"><value>Tên công ty là bắt buộc</value></data>
+  <data name="PartnerCompanyNameMinLength" xml:space="preserve"><value>Tên công ty phải có ít nhất 2 ký tự</value></data>
+  <data name="PartnerCompanyTaxRequired" xml:space="preserve"><value>Mã số thuế là bắt buộc</value></data>
+  <data name="PartnerCompanyTaxInvalid" xml:space="preserve"><value>Mã số thuế không hợp lệ (10-14 số)</value></data>
+  <data name="PartnerCompanyAddressRequired" xml:space="preserve"><value>Địa chỉ công ty là bắt buộc</value></data>
+  <data name="PartnerCompanyAddressMinLength" xml:space="preserve"><value>Địa chỉ phải có ít nhất 5 ký tự</value></data>
+  <data name="PartnerBusinessTypeInvalid" xml:space="preserve"><value>Loại hình doanh nghiệp không hợp lệ</value></data>
+  <data name="PartnerCompanySizeInvalid" xml:space="preserve"><value>Quy mô công ty không hợp lệ</value></data>
+  <data name="PartnerCompanyWebsiteInvalid" xml:space="preserve"><value>Website không hợp lệ (VD: https://example.com)</value></data>
+  <data name="PartnerCompanyTaxMaxLength" xml:space="preserve"><value>Mã số thuế không được vượt quá 50 ký tự</value></data>
+  <data name="PartnerCompanyWebsiteMaxLength" xml:space="preserve"><value>Website không được vượt quá 300 ký tự</value></data>
+
+  <!-- Validation - Products -->
+  <data name="PartnerProductsRequired" xml:space="preserve"><value>Cần có ít nhất 1 sản phẩm</value></data>
+  <data name="PartnerProductNameRequired" xml:space="preserve"><value>Tên sản phẩm là bắt buộc</value></data>
+  <data name="PartnerProductNameMinLength" xml:space="preserve"><value>Tên sản phẩm phải có ít nhất 2 ký tự</value></data>
+  <data name="PartnerProductCategoryInvalid" xml:space="preserve"><value>Danh mục sản phẩm không hợp lệ</value></data>
+  <data name="PartnerRetailPriceNonNegative" xml:space="preserve"><value>Giá bán lẻ phải >= 0</value></data>
+  <data name="PartnerWholesalePriceNonNegative" xml:space="preserve"><value>Giá bán sỉ phải >= 0</value></data>
+  <data name="PartnerMinOrderQuantityPositive" xml:space="preserve"><value>Số lượng đặt hàng tối thiểu phải >= 1</value></data>
+
+  <!-- Validation - Commission -->
+  <data name="PartnerCommissionTypeInvalid" xml:space="preserve"><value>Loại hoa hồng không hợp lệ</value></data>
+  <data name="PartnerCommissionRateRequired" xml:space="preserve"><value>Tỷ lệ hoa hồng là bắt buộc</value></data>
+  <data name="PartnerCommissionRateRange" xml:space="preserve"><value>Tỷ lệ hoa hồng phải từ 0 đến 100%</value></data>
+
+  <!-- Validation - Confirmation -->
+  <data name="PartnerAgreeTermsRequired" xml:space="preserve"><value>Bạn phải đồng ý với điều khoản</value></data>
+
+  <!-- Success & Error -->
+  <data name="PartnerRegisterSuccess" xml:space="preserve"><value>Đăng ký đối tác thành công!</value></data>
+  <data name="PartnerReferralCodeInvalid" xml:space="preserve"><value>Mã giới thiệu không hợp lệ</value></data>
+  <data name="PartnerValidationFailed" xml:space="preserve"><value>Dữ liệu không hợp lệ</value></data>
+  <data name="SalesChannelInvalid" xml:space="preserve"><value>Kênh bán hàng không hợp lệ</value></data>
+  <!-- Validation Keys -->
+  <data name="PurchaseRequest_ProductNameRequired">
+    <value>Tên sản phẩm là bắt buộc</value>
+  </data>
+  <data name="PurchaseRequest_ProductNameMinLength">
+    <value>Tên sản phẩm phải có ít nhất 3 ký tự</value>
+  </data>
+  <data name="PurchaseRequest_ProductCategoryLength">
+    <value>Danh mục sản phẩm tối đa 100 ký tự</value>
+  </data>
+  <data name="PurchaseRequest_QuantityRequired">
+    <value>Số lượng là bắt buộc</value>
+  </data>
+  <data name="PurchaseRequest_QuantityPositive">
+    <value>Số lượng phải lớn hơn 0</value>
+  </data>
+  <data name="PurchaseRequest_UnitRequired">
+    <value>Đơn vị tính là bắt buộc</value>
+  </data>
+  <data name="PurchaseRequest_UnitLength">
+    <value>Đơn vị tính tối đa 50 ký tự</value>
+  </data>
+  <data name="PurchaseRequest_FullNameRequired">
+    <value>Họ và tên là bắt buộc</value>
+  </data>
+  <data name="PurchaseRequest_FullNameMinLength">
+    <value>Họ và tên phải có ít nhất 2 ký tự</value>
+  </data>
+  <data name="PurchaseRequest_PhoneRequired">
+    <value>Số điện thoại là bắt buộc</value>
+  </data>
+  <data name="PurchaseRequest_PhoneInvalid">
+    <value>Số điện thoại không hợp lệ (phải bắt đầu bằng 0 và có 10-11 chữ số)</value>
+  </data>
+  <data name="PurchaseRequest_ZaloInvalid">
+    <value>Số Zalo không hợp lệ (phải bắt đầu bằng 0 và có 10-11 chữ số)</value>
+  </data>
+  <data name="PurchaseRequest_EmailRequired">
+    <value>Email là bắt buộc</value>
+  </data>
+  <data name="PurchaseRequest_EmailInvalid">
+    <value>Email không hợp lệ</value>
+  </data>
+
+  <!-- Success Key -->
+  <data name="PurchaseRequest_CreatePurchaseRequestSuccess">
+    <value>Gửi yêu cầu tìm nhà cung cấp thành công</value>
+  </data>
+  <!-- Validation - GroupBuyingRequest -->
+  <data name="GroupBuyingRequest_ProductNameRequired">
+    <value>Tên sản phẩm là bắt buộc</value>
+  </data>
+  <data name="GroupBuyingRequest_ProductNameMinLength">
+    <value>Tên sản phẩm phải có ít nhất 3 ký tự</value>
+  </data>
+  <data name="GroupBuyingRequest_ProductLinkInvalid">
+    <value>Link sản phẩm không hợp lệ</value>
+  </data>
+  <data name="GroupBuyingRequest_TargetPriceRequired">
+    <value>Giá mục tiêu là bắt buộc</value>
+  </data>
+  <data name="GroupBuyingRequest_TargetPriceMin">
+    <value>Giá mục tiêu phải từ 1.000đ trở lên</value>
+  </data>
+  <data name="GroupBuyingRequest_TargetPeopleCountRequired">
+    <value>Số người tham gia là bắt buộc</value>
+  </data>
+  <data name="GroupBuyingRequest_TargetPeopleCountMin">
+    <value>Số người tham gia phải từ 2 trở lên</value>
+  </data>
+  <data name="GroupBuyingRequest_FullNameRequired">
+    <value>Họ và tên là bắt buộc</value>
+  </data>
+  <data name="GroupBuyingRequest_FullNameMinLength">
+    <value>Họ và tên phải có ít nhất 2 ký tự</value>
+  </data>
+  <data name="GroupBuyingRequest_PhoneRequired">
+    <value>Số điện thoại là bắt buộc</value>
+  </data>
+  <data name="GroupBuyingRequest_PhoneInvalid">
+    <value>Số điện thoại không hợp lệ (phải bắt đầu bằng 0 và có 10-11 số)</value>
+  </data>
+  <data name="GroupBuyingRequest_ZaloInvalid">
+    <value>Số Zalo không hợp lệ (phải là 10 chữ số)</value>
+  </data>
+  <data name="GroupBuyingRequest_EmailRequired">
+    <value>Email là bắt buộc</value>
+  </data>
+  <data name="GroupBuyingRequest_EmailInvalid">
+    <value>Email không hợp lệ</value>
+  </data>
+
+  <!-- Success -->
+  <data name="GroupBuyingRequest_CreateSuccess">
+    <value>Tạo yêu cầu mua chung thành công</value>
+  </data>
+  <!-- src/Kindi.API.Application/Resources/vi/SharedResource.vi.resx -->
+  <!-- Product Validation -->
+  <data name="OfferRequest_ProductNameRequired">
+    <value>Tên sản phẩm là bắt buộc</value>
+  </data>
+  <data name="OfferRequest_ProductNameMinLength">
+    <value>Tên sản phẩm phải có ít nhất 3 ký tự</value>
+  </data>
+  <data name="OfferRequest_ProductLinkInvalid">
+    <value>Đường dẫn sản phẩm không hợp lệ</value>
+  </data>
+  <data name="OfferRequest_CurrentPriceRequired">
+    <value>Giá hiện tại là bắt buộc</value>
+  </data>
+  <data name="OfferRequest_CurrentPriceInvalid">
+    <value>Giá hiện tại phải lớn hơn 0</value>
+  </data>
+  <data name="OfferRequest_ExpectedPriceInvalid">
+    <value>Giá kỳ vọng phải lớn hơn 0</value>
+  </data>
+  <data name="OfferRequest_QuantityRequired">
+    <value>Số lượng là bắt buộc</value>
+  </data>
+  <data name="OfferRequest_QuantityMin">
+    <value>Số lượng phải từ 1 trở lên</value>
+  </data>
+  <data name="OfferRequest_UnitRequired">
+    <value>Đơn vị tính là bắt buộc</value>
+  </data>
+  <data name="OfferRequest_UnitMinLength">
+    <value>Đơn vị tính phải có ít nhất 1 ký tự</value>
+  </data>
+
+  <!-- User Validation -->
+  <data name="OfferRequest_FullNameRequired">
+    <value>Họ và tên là bắt buộc</value>
+  </data>
+  <data name="OfferRequest_FullNameMinLength">
+    <value>Họ và tên phải có ít nhất 2 ký tự</value>
+  </data>
+  <data name="OfferRequest_PhoneRequired">
+    <value>Số điện thoại là bắt buộc</value>
+  </data>
+  <data name="OfferRequest_PhoneInvalid">
+    <value>Số điện thoại không hợp lệ (phải bắt đầu bằng 0 và có 10-11 số)</value>
+  </data>
+  <data name="OfferRequest_EmailInvalid">
+    <value>Email không hợp lệ</value>
+  </data>
+
+  <!-- Success Messages -->
+  <data name="OfferRequest_CreateSuccess">
+    <value>Yêu cầu nhận offer đã được gửi thành công</value>
+  </data>
+  <!-- Partner - Referral Code -->
+  <data name="Partner_ReferralCodeNotFound">
+    <value>Mã giới thiệu không tồn tại</value>
+  </data>
+  <data name="Partner_ReferralCodeValid">
+    <value>Mã giới thiệu hợp lệ</value>
+  </data>
+  <data name="CTV_NotFound">
+    <value>Không tìm thấy CTV</value>
+  </data>
+  <data name="CTV_ApproveSuccess">
+    <value>Duyệt CTV thành công</value>
+  </data>
+  <data name="CTV_RejectSuccess">
+    <value>Từ chối CTV thành công</value>
+  </data>
+  <data name="CTV_InvalidStatusTransition">
+    <value>Không thể thực hiện với CTV có trạng thái {0}</value>
+  </data>
+  <data name="CTV_InvalidId">
+    <value>ID CTV không hợp lệ</value>
+  </data>
+  <!-- Partner Admin Keys -->
+  <data name="Partner_NotFound">
+    <value>Không tìm thấy đối tác</value>
+  </data>
+  <data name="Partner_InvalidStatusTransition">
+    <value>Trạng thái không hợp lệ</value>
+  </data>
+  <data name="Partner_ApproveSuccess">
+    <value>Duyệt đối tác thành công</value>
+  </data>
+  <data name="Partner_RejectSuccess">
+    <value>Từ chối đối tác thành công</value>
+  </data>
+  <data name="Partner_ActivateSuccess">
+    <value>Kích hoạt đối tác thành công</value>
+  </data>
+  <data name="Partner_DeleteSuccess">
+    <value>Xóa đối tác thành công</value>
+  </data>
+  <data name="Partner_RestoreSuccess">
+    <value>Khôi phục đối tác thành công</value>
+  </data>
+  <data name="Partner_UpdateSuccess">
+    <value>Cập nhật đối tác thành công</value>
+  </data>
+  <data name="Partner_ProductNotFound">
+    <value>Không tìm thấy sản phẩm của đối tác</value>
+  </data>
+  <data name="Partner_ProductAddSuccess">
+    <value>Thêm sản phẩm thành công</value>
+  </data>
+  <data name="Partner_ProductUpdateSuccess">
+    <value>Cập nhật sản phẩm thành công</value>
+  </data>
+  <data name="Partner_ProductDeleteSuccess">
+    <value>Xóa sản phẩm thành công</value>
+  </data>
+  <data name="PartnerProductNameMaxLength" xml:space="preserve"><value>Tên sản phẩm không được vượt quá 200 ký tự</value></data>
+  <data name="PartnerProductDescriptionMaxLength" xml:space="preserve"><value>Mô tả không được vượt quá 1000 ký tự</value></data>
+  <data name="PartnerProductPriceInvalid" xml:space="preserve"><value>Giá không được âm</value></data>
+  <data name="PartnerProductMinOrderQuantityInvalid" xml:space="preserve"><value>Số lượng đặt tối thiểu phải từ 1 trở lên</value></data>
+  <!-- Social Post Keys -->
+  <data name="Social_GetPostsSuccess"><value>Lấy danh sách bài viết thành công</value></data>
+  <data name="Social_CreateSuccess"><value>Tạo bài viết thành công</value></data>
+  <data name="Social_UpdateSuccess"><value>Cập nhật bài viết thành công</value></data>
+  <data name="Social_DeleteSuccess"><value>Xóa bài viết thành công</value></data>
+  <data name="Social_NotFound"><value>Không tìm thấy bài viết</value></data>
+  <data name="Social_ContentRequired"><value>Nội dung bài viết là bắt buộc</value></data>
+  <data name="Social_ContentMaxLength"><value>Nội dung không được vượt quá 5000 ký tự</value></data>
+  <data name="Social_TitleMaxLength"><value>Tiêu đề không được vượt quá 200 ký tự</value></data>
+  <data name="Social_TypeInvalid"><value>Loại bài viết không hợp lệ</value></data>
+  <data name="Social_PrivacyInvalid"><value>Quyền riêng tư không hợp lệ</value></data>
+  <data name="Social_TagsMaxCount"><value>Chỉ được thêm tối đa 5 thẻ</value></data>
+  <data name="Social_TagMaxLength"><value>Thẻ không được vượt quá 20 ký tự</value></data>
+  <data name="Social_ImagesMaxCount"><value>Chỉ được tải lên tối đa 5 ảnh</value></data>
+  <data name="Social_EventDateRequired"><value>Ngày sự kiện là bắt buộc</value></data>
+  <data name="Social_EventDateFuture"><value>Ngày sự kiện phải là ngày trong tương lai</value></data>
+  <data name="Social_PriorityRequired"><value>Mức độ ưu tiên là bắt buộc</value></data>
+  <data name="Social_PriorityInvalid"><value>Mức độ ưu tiên không hợp lệ</value></data>
+  <data name="Social_PinnedUntilFuture"><value>Ngày ghim phải là ngày trong tương lai</value></data>
+  <data name="Social_PageNumberInvalid"><value>Số trang phải lớn hơn hoặc bằng 1</value></data>
+  <data name="Social_PageSizeInvalid"><value>Số lượng item/trang phải từ 1 đến 50</value></data>
+  <data name="Social_NotAuthorized"><value>Bạn không có quyền thực hiện hành động này</value></data>
+  <data name="Collaborator_FullNameRequired">
+    <value>Họ tên là bắt buộc</value>
+  </data>
+  <data name="Collaborator_FullNameMaxLength">
+    <value>Họ tên không được vượt quá 200 ký tự</value>
+  </data>
+  <data name="Collaborator_PhoneRequired">
+    <value>Số điện thoại là bắt buộc</value>
+  </data>
+  <data name="Collaborator_PhoneInvalid">
+    <value>Số điện thoại không hợp lệ (phải bắt đầu bằng 0 và có 10-11 số)</value>
+  </data>
+  <data name="Collaborator_EmailInvalid">
+    <value>Email không hợp lệ</value>
+  </data>
+  <data name="Collaborator_UsernameRequired">
+    <value>Tên đăng nhập là bắt buộc</value>
+  </data>
+  <data name="Collaborator_UsernameMinLength">
+    <value>Tên đăng nhập phải có ít nhất 3 ký tự</value>
+  </data>
+  <data name="Collaborator_UsernameMaxLength">
+    <value>Tên đăng nhập không được vượt quá 50 ký tự</value>
+  </data>
+  <data name="Collaborator_PasswordRequired">
+    <value>Mật khẩu là bắt buộc</value>
+  </data>
+  <data name="Collaborator_PasswordMinLength">
+    <value>Mật khẩu phải có ít nhất 6 ký tự</value>
+  </data>
+  <data name="Collaborator_PasswordMaxLength">
+    <value>Mật khẩu không được vượt quá 100 ký tự</value>
+  </data>
+  <data name="Collaborator_PasswordComplexity">
+    <value>Mật khẩu phải có ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt</value>
+  </data>
+  <data name="Collaborator_PasswordMismatch">
+    <value>Mật khẩu xác nhận không khớp</value>
+  </data>
+  <data name="Collaborator_AgreeTermsRequired">
+    <value>Bạn phải đồng ý với điều khoản</value>
+  </data>
+  <data name="Collaborator_BusinessNameMaxLength">
+    <value>Tên doanh nghiệp không được vượt quá 200 ký tự</value>
+  </data>
+  <data name="Collaborator_BusinessSizeInvalid">
+    <value>Quy mô doanh nghiệp phải từ 1 đến 1000</value>
+  </data>
+  <data name="Collaborator_WebsiteInvalid">
+    <value>Website không hợp lệ</value>
+  </data>
+  <data name="Collaborator_CompanyTaxMaxLength">
+    <value>Mã số thuế không được vượt quá 50 ký tự</value>
+  </data>
+  <data name="Collaborator_ParentIdInvalid">
+    <value>ParentCollaboratorId không hợp lệ</value>
+  </data>
+
+  <!-- Success Messages -->
+  <data name="Collaborator_CreateSuccess">
+    <value>Đăng ký CTV thành công</value>
+  </data>
+  <data name="Collaborator_UpdateSuccess">
+    <value>Cập nhật CTV thành công</value>
+  </data>
+  <data name="Collaborator_ApproveSuccess">
+    <value>Duyệt CTV thành công</value>
+  </data>
+  <data name="Collaborator_RejectSuccess">
+    <value>Từ chối CTV thành công</value>
+  </data>
+  <data name="Collaborator_DeleteSuccess">
+    <value>Xóa CTV thành công</value>
+  </data>
+  <data name="Collaborator_RestoreSuccess">
+    <value>Khôi phục CTV thành công</value>
+  </data>
+  <data name="Collaborator_NotFound">
+    <value>Không tìm thấy CTV</value>
+  </data>
+  <!-- Social Interaction Keys -->
+  <data name="Social_LikeSuccess">
+    <value>Đã thích bài viết</value>
+  </data>
+  <data name="Social_UnlikeSuccess">
+    <value>Đã bỏ thích bài viết</value>
+  </data>
+  <data name="Social_CommentDeleted">
+    <value>Đã xóa bình luận</value>
+  </data>
+  <data name="Social_ShareSuccess">
+    <value>Đã chia sẻ bài viết</value>
+  </data>
+
+  <data name="SocialPost_NotFound">
+    <value>Không tìm thấy bài viết</value>
+  </data>
+  <data name="SocialComment_NotFound">
+    <value>Không tìm thấy bình luận</value>
+  </data>
+  <data name="SocialComment_ParentNotFound">
+    <value>Không tìm thấy bình luận cha</value>
+  </data>
+  <data name="SocialComment_NoPermission">
+    <value>Bạn không có quyền xóa bình luận này</value>
+  </data>
+
+  <!-- Validation -->
+  <data name="SocialComment_ContentRequired">
+    <value>Nội dung bình luận là bắt buộc</value>
+  </data>
+  <data name="SocialComment_ContentMaxLength">
+    <value>Nội dung bình luận không được vượt quá 1000 ký tự</value>
+  </data>
+  <!-- Collaborator - Validation & Business Rules -->
+  <data name="Collaborator_UserAlreadyExists">
+    <value>Người dùng này đã là cộng tác viên</value>
+  </data>
+  <data name="Collaborator_EmailAlreadyExists">
+    <value>Email này đã được đăng ký bởi người dùng khác</value>
+  </data>
+  <data name="Collaborator_PhoneAlreadyExists">
+    <value>Số điện thoại này đã được đăng ký bởi người dùng khác</value>
+  </data>
+  <data name="Collaborator_ParentNotFound">
+    <value>Không tìm thấy cộng tác viên cấp trên</value>
+  </data>
+  <data name="Collaborator_ParentNotApproved">
+    <value>Cộng tác viên cấp trên chưa được duyệt</value>
+  </data>
+  <data name="Collaborator_CircularReference">
+    <value>Không thể tham chiếu vòng lặp trong hệ thống cấp bậc</value>
+  </data>
+  <data name="Collaborator_LevelExceeded">
+    <value>Cấp bậc cộng tác viên vượt quá giới hạn cho phép</value>
+  </data>
+  <data name="Collaborator_CreateSuccess">
+    <value>Tạo cộng tác viên thành công</value>
+  </data>
+  <data name="User_PhoneRequired">
+    <value>Số điện thoại là bắt buộc</value>
+  </data>
+  <data name="User_PhoneAlreadyExists">
+    <value>Số điện thoại đã tồn tại trong hệ thống</value>
+  </data>
+  <!-- Social - Get Pending Posts -->
+  <data name="Social_GetPendingSuccess">
+    <value>Lấy danh sách bài viết chờ duyệt thành công</value>
+  </data>
+
+  <!-- Social - Approve Post -->
+  <data name="Social_ApproveSuccess">
+    <value>Duyệt bài viết thành công</value>
+  </data>
+  <data name="Social_AlreadyApproved">
+    <value>Bài viết đã được duyệt trước đó</value>
+  </data>
+
+  <!-- Social - Reject Post -->
+  <data name="Social_RejectSuccess">
+    <value>Từ chối bài viết thành công</value>
+  </data>
+  <!-- SharedResource.vi.resx -->
+  <data name="Social_PendingApproval">
+    <value>Bài viết của bạn đã được gửi và đang chờ duyệt. Bạn sẽ nhận được thông báo khi được duyệt!</value>
+  </data>
+  <!-- SharedResource.en.resx -->
+  <data name="Social_PendingApproval">
+    <value>Your post has been submitted and is pending approval. You will be notified when approved!</value>
+  </data>
+  <!-- Social - Pin Post -->
+  <data name="Social_PinSuccess">
+    <value>Ghim bài viết thành công</value>
+  </data>
+  <data name="Social_AlreadyPinned">
+    <value>Bài viết đã được ghim trước đó</value>
+  </data>
+  <data name="Social_UnpinSuccess">
+    <value>Hủy ghim bài viết thành công</value>
+  </data>
+  <data name="Social_NotPinned">
+    <value>Bài viết chưa được ghim</value>
+  </data>
+
+  <!-- Report -->
+  <data name="Report_OverviewSuccess">
+    <value>Lấy báo cáo tổng quan thành công</value>
+  </data>
+  <data name="Report_TrendSuccess">
+    <value>Lấy báo cáo xu hướng thành công</value>
+  </data>
+  <data name="Report_RequestsSuccess">
+    <value>Lấy báo cáo yêu cầu thành công</value>
+  </data>
+  <data name="Report_SocialSuccess">
+    <value>Lấy báo cáo mạng xã hội thành công</value>
+  </data>
+  <data name="Report_MembersSuccess">
+    <value>Lấy báo cáo thành viên thành công</value>
+  </data>
+
+  <!-- Audit Logs -->
+  <data name="AuditLogs_EntityListSuccess">
+    <value>Lấy danh sách audit log entity thành công</value>
+  </data>
+  <data name="AuditLogs_EntityDetailSuccess">
+    <value>Lấy chi tiết audit log entity thành công</value>
+  </data>
+  <data name="AuditLogs_AuthListSuccess">
+    <value>Lấy danh sách audit log đăng nhập/đăng ký thành công</value>
+  </data>
+  <data name="AuditLogs_AuthDetailSuccess">
+    <value>Lấy chi tiết audit log đăng nhập/đăng ký thành công</value>
+  </data>
+  <data name="AuditLogs_NotFound">
+    <value>Không tìm thấy audit log</value>
+  </data>
+</root>

@@ -3,7 +3,7 @@
     [string]$NewProjectName
 )
 
-$OldProjectName = "FlashOffer.API"
+$OldProjectName = "Kindi.API"
 $RootPath = "."
 
 Write-Host "======================================================================" -ForegroundColor Cyan

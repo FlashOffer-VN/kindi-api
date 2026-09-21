@@ -3,12 +3,12 @@
   "author": "Your Name",
   "classifications": ["WebAPI", "Clean Architecture", ".NET 10"],
   "name": "Dotnet API Base Template",
-  "identity": "FlashOffer.API.Template",
+  "identity": "Kindi.API.Template",
   "shortName": "dotnet-api-base",
   "tags": {
     "language": "C#",
     "type": "project"
   },
-  "sourceName": "FlashOffer.API",
+  "sourceName": "Kindi.API",
   "preferNameDirectory": true
 }

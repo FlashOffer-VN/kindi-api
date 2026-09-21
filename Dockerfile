@@ -1,25 +1,25 @@
-﻿# Dockerfile for FlashOffer.API.WebApi
+﻿# Dockerfile for Kindi.API.WebApi
 # Build stage
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
 # Copy solution and project files
-COPY ["FlashOffer.API.slnx", "."]
-COPY ["src/FlashOffer.API.Domain/FlashOffer.API.Domain.csproj", "src/FlashOffer.API.Domain/"]
-COPY ["src/FlashOffer.API.Application/FlashOffer.API.Application.csproj", "src/FlashOffer.API.Application/"]
-COPY ["src/FlashOffer.API.Shared/FlashOffer.API.Shared.csproj", "src/FlashOffer.API.Shared/"]
-COPY ["src/FlashOffer.API.Infrastructure/FlashOffer.API.Infrastructure.csproj", "src/FlashOffer.API.Infrastructure/"]
-COPY ["src/FlashOffer.API.WebApi/FlashOffer.API.WebApi.csproj", "src/FlashOffer.API.WebApi/"]
-COPY ["docs/FlashOffer.API.Documentation/FlashOffer.API.Documentation.csproj", "docs/FlashOffer.API.Documentation/"]
-# COPY ["tests/FlashOffer.API.UnitTests/FlashOffer.API.UnitTests.csproj", "tests/FlashOffer.API.UnitTests/"]
-# COPY ["tests/FlashOffer.API.IntegrationTests/FlashOffer.API.IntegrationTests.csproj", "tests/FlashOffer.API.IntegrationTests/"]
+COPY ["Kindi.API.slnx", "."]
+COPY ["src/Kindi.API.Domain/Kindi.API.Domain.csproj", "src/Kindi.API.Domain/"]
+COPY ["src/Kindi.API.Application/Kindi.API.Application.csproj", "src/Kindi.API.Application/"]
+COPY ["src/Kindi.API.Shared/Kindi.API.Shared.csproj", "src/Kindi.API.Shared/"]
+COPY ["src/Kindi.API.Infrastructure/Kindi.API.Infrastructure.csproj", "src/Kindi.API.Infrastructure/"]
+COPY ["src/Kindi.API.WebApi/Kindi.API.WebApi.csproj", "src/Kindi.API.WebApi/"]
+COPY ["docs/Kindi.API.Documentation/Kindi.API.Documentation.csproj", "docs/Kindi.API.Documentation/"]
+# COPY ["tests/Kindi.API.UnitTests/Kindi.API.UnitTests.csproj", "tests/Kindi.API.UnitTests/"]
+# COPY ["tests/Kindi.API.IntegrationTests/Kindi.API.IntegrationTests.csproj", "tests/Kindi.API.IntegrationTests/"]
 
 # Copy package management files
 COPY ["Directory.Packages.props", "."]
 COPY ["Directory.Build.props", "."]
 
 # Restore dependencies
-RUN dotnet restore FlashOffer.API.slnx
+RUN dotnet restore Kindi.API.slnx
 
 # Copy all source code
 COPY src/ src/
@@ -29,7 +29,7 @@ COPY docs/ docs/
 # Publish the WebApi project
 # PublishReadyToRun pre-compiles IL to native code at build time, reducing JIT warmup
 # (faster cold start on Render free tier). linux-x64 matches the Debian runtime image.
-RUN dotnet publish src/FlashOffer.API.WebApi/FlashOffer.API.WebApi.csproj \
+RUN dotnet publish src/Kindi.API.WebApi/Kindi.API.WebApi.csproj \
     -c Release \
     -r linux-x64 \
     -p:PublishReadyToRun=true \
