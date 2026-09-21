@@ -240,6 +240,30 @@
 	<data name="NewPasswordSameAsCurrent" xml:space="preserve">
     <value>Mật khẩu mới phải khác mật khẩu hiện tại</value>
   </data>
+	<data name="BusinessGroup_TopicRequired" xml:space="preserve">
+    <value>Vui lòng nhập chủ đề hội nhóm</value>
+  </data>
+	<data name="BusinessGroup_TopicMinLength" xml:space="preserve">
+    <value>Chủ đề phải có ít nhất 3 ký tự</value>
+  </data>
+	<data name="BusinessGroup_TopicMaxLength" xml:space="preserve">
+    <value>Chủ đề tối đa 200 ký tự</value>
+  </data>
+	<data name="BusinessGroup_ApprovalStatusInvalidMessage" xml:space="preserve">
+    <value>Trạng thái chỉ nhận: Approved (duyệt mở hội) hoặc Rejected (từ chối)</value>
+  </data>
+	<data name="BusinessGroup_NotCommunity" xml:space="preserve">
+    <value>Nhóm này không phải hội nhóm do người dùng tạo</value>
+  </data>
+	<data name="BusinessGroup_CommunityListRetrieved" xml:space="preserve">
+    <value>Lấy danh sách hội nhóm thành công</value>
+  </data>
+	<data name="BusinessGroup_CommunityCreated" xml:space="preserve">
+    <value>Đã gửi yêu cầu mở hội nhóm, vui lòng chờ admin duyệt</value>
+  </data>
+	<data name="BusinessGroup_CommunityApproved" xml:space="preserve">
+    <value>Cập nhật trạng thái hội nhóm thành công</value>
+  </data>
 	<data name="BusinessGroup_NotFound" xml:space="preserve">
     <value>Không tìm thấy nhóm</value>
   </data>
@@ -1057,5 +1081,8 @@
   </data>
   <data name="GroupBuyingRequest_ProductNameMaxLength">
     <value>Tên sản phẩm tối đa 255 ký tự</value>
+  </data>
+  <data name="BusinessGroup_ForwardedGroupsRetrieved" xml:space="preserve">
+    <value>Lấy danh sách nhóm đã gửi thành công</value>
   </data>
 </root>

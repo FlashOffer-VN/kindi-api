@@ -150,6 +150,43 @@ public class PartnerService : IPartnerService
         return response;
     }
 
+    /// <summary>
+    /// Nguồn cung công khai: chỉ những đối tác doanh nghiệp đã được duyệt (Approved/Active)
+    /// và chưa xoá. Không lộ SĐT/email — khách liên hệ qua form của app.
+    /// </summary>
+    public async Task<PagedList<PublicPartnerResponseDto>> GetPublicPagedAsync(PublicPartnerQueryDto query)
+    {
+        var search = NormalizePartnerFilter(query.Search)?.ToLowerInvariant();
+
+        var q = _queryService.GetAllNoTracking<Partner>()
+            .Where(x => x.Status == PartnerStatus.Approved || x.Status == PartnerStatus.Active)
+            .WhereIf(query.BusinessFieldId.HasValue, x => x.BusinessFieldId == query.BusinessFieldId!.Value)
+            .WhereIf(!string.IsNullOrEmpty(search), x =>
+                x.CompanyName.ToLower().Contains(search!) ||
+                x.FullName.ToLower().Contains(search!) ||
+                (x.CompanyAddress != null && x.CompanyAddress.ToLower().Contains(search!)) ||
+                (x.BusinessField != null && x.BusinessField.Name.ToLower().Contains(search!)) ||
+                x.Products.Any(p => !p.IsDeleted && p.Name.ToLower().Contains(search!)))
+            .Include(x => x.BusinessField)
+            .Include(x => x.Products);
+
+        var paged = await q.ToPagedListAsync(query.Page, query.PageSize, null, null, defaultSortBy: "CreatedAt");
+        return _mapper.MapPagedList<Partner, PublicPartnerResponseDto>(paged);
+    }
+
+    /// <summary>Chuẩn hoá filter: rỗng / "undefined" / "null" / "all" coi như không lọc.</summary>
+    private static string? NormalizePartnerFilter(string? value)
+    {
+        if (string.IsNullOrWhiteSpace(value)) return null;
+
+        var trimmed = value.Trim();
+        return trimmed.ToLowerInvariant() switch
+        {
+            "undefined" or "null" or "nan" or "all" => null,
+            _ => trimmed
+        };
+    }
+
     private string GeneratePartnerCode()
     {
         // Format: PART-{DateTime:yyMMdd}-{Random4Digits}

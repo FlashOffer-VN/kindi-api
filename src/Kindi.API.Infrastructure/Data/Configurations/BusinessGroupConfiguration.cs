@@ -1,4 +1,5 @@
 ﻿using Kindi.API.Domain.Entities;
+using Kindi.API.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -27,6 +28,23 @@ public class BusinessGroupConfiguration : IEntityTypeConfiguration<BusinessGroup
 
         builder.Property(x => x.CoverImageUrl)
             .HasMaxLength(500);
+
+        builder.Property(x => x.Topic)
+            .HasMaxLength(200);
+
+        builder.Property(x => x.RejectedReason)
+            .HasMaxLength(500);
+
+        builder.Property(x => x.Type)
+            .HasConversion<int>()
+            .HasDefaultValue(BusinessGroupType.Industry);
+
+        builder.Property(x => x.ApprovalStatus)
+            .HasConversion<int>()
+            .HasDefaultValue(GroupApprovalStatus.Approved);
+
+        builder.HasIndex(x => x.Type);
+        builder.HasIndex(x => x.ApprovalStatus);
 
         builder.Property(x => x.RequiresApproval)
             .HasDefaultValue(true);

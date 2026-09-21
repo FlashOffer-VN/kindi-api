@@ -15,4 +15,10 @@ public class AdminBusinessGroupQueryDto
     public bool HasPendingMembers { get; set; }
     /// <summary>true = chỉ nhóm đang có yêu cầu kín gửi admin chờ xử lý.</summary>
     public bool HasPrivateRequests { get; set; }
+
+    /// <summary>Lọc theo loại nhóm (Industry = nhóm ngành, Community = hội nhóm).</summary>
+    public BusinessGroupType? Type { get; set; }
+
+    /// <summary>Lọc theo trạng thái duyệt mở hội (dùng cho "hội nhóm chờ duyệt").</summary>
+    public GroupApprovalStatus? ApprovalStatus { get; set; }
 }

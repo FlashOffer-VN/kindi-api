@@ -10,6 +10,11 @@ public interface IBusinessGroupService
     Task<PagedList<BusinessGroupResponseDto>> GetPublicPagedAsync(BusinessGroupQueryDto query);
     Task<BusinessGroupDetailDto> GetPublicByIdAsync(Guid id);
     Task<JoinBusinessGroupResponseDto> JoinAsync(Guid id, JoinBusinessGroupRequest request);
+
+    // ===== Hội nhóm (người dùng tự tạo) =====
+    Task<PagedList<BusinessGroupResponseDto>> GetCommunityPagedAsync(BusinessGroupQueryDto query);
+    Task<BusinessGroupResponseDto> CreateCommunityAsync(CreateCommunityGroupDto request);
+    Task<BusinessGroupResponseDto> UpdateCommunityApprovalAsync(Guid id, UpdateCommunityGroupApprovalDto request);
     Task LeaveAsync(Guid id);
 
     Task<PagedList<BusinessGroupPostResponseDto>> GetPostsAsync(Guid groupId, GroupPostQueryDto query);
@@ -31,4 +36,7 @@ public interface IBusinessGroupService
     Task<BusinessGroupMemberResponseDto> UpdateMemberStatusAsync(Guid id, Guid memberId, UpdateGroupMemberStatusDto request);
     Task RemoveMemberAsync(Guid id, Guid memberId);
     Task<BusinessGroupPostResponseDto> UpdatePostAsync(Guid groupId, Guid postId, UpdateBusinessGroupPostDto request);
+
+    /// <summary>Danh sách nhóm ngành đã có bài chuyển tiếp cho bản ghi này (để không gửi trùng).</summary>
+    Task<List<ForwardedGroupResponseDto>> GetForwardedGroupsAsync(Guid refId);
 }

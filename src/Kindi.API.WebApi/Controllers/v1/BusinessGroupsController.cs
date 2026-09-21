@@ -66,10 +66,52 @@ public class BusinessGroupsController : ApiControllerBase
     }
 
     // =====================================================================
+    // HỘI NHÓM (người dùng tự tạo theo chủ đề)
+    // =====================================================================
+
+    /// <summary>Danh sách hội nhóm: hội đã duyệt + hội của chính mình (mọi trạng thái)</summary>
+    [HttpGet("community")]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetCommunity([FromQuery] BusinessGroupQueryDto query)
+    {
+        var result = await _groupService.GetCommunityPagedAsync(query);
+        return OkPaged(result, _localizer["BusinessGroup_CommunityListRetrieved"]);
+    }
+
+    /// <summary>Người dùng tạo hội nhóm theo chủ đề (chờ admin duyệt mở hội)</summary>
+    [HttpPost("community")]
+    [Authorize]
+    public async Task<IActionResult> CreateCommunity([FromBody] CreateCommunityGroupDto request)
+    {
+        var result = await _groupService.CreateCommunityAsync(request);
+        return Created(string.Empty, result, _localizer["BusinessGroup_CommunityCreated"]);
+    }
+
+    /// <summary>Admin duyệt / từ chối mở hội nhóm</summary>
+    [HttpPut("community/{id:guid}/approval")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> UpdateCommunityApproval(Guid id, [FromBody] UpdateCommunityGroupApprovalDto request)
+    {
+        var result = await _groupService.UpdateCommunityApprovalAsync(id, request);
+        return Ok(result, _localizer["BusinessGroup_CommunityApproved"]);
+    }
+
+    // =====================================================================
     // BÀI ĐĂNG / BÌNH LUẬN TRONG NHÓM (thành viên đã duyệt hoặc admin)
     // =====================================================================
 
     /// <summary>Danh sách bài trong nhóm</summary>
+    /// <summary>
+    /// Nhóm ngành đã có bài chuyển tiếp cho bản ghi này (admin) — dùng để cảnh báo trước khi gửi.
+    /// </summary>
+    [HttpGet("forwarded-groups")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> GetForwardedGroups([FromQuery] Guid refId)
+    {
+        var data = await _groupService.GetForwardedGroupsAsync(refId);
+        return Ok(data, _localizer["BusinessGroup_ForwardedGroupsRetrieved"]);
+    }
+
     [HttpGet("{id:guid}/posts")]
     [Authorize]
     public async Task<IActionResult> GetPosts(Guid id, [FromQuery] GroupPostQueryDto query)
@@ -181,27 +223,27 @@ public class BusinessGroupsController : ApiControllerBase
         return Ok(new { message = _localizer["BusinessGroup_Deleted"].Value });
     }
 
-    /// <summary>Danh sách thành viên + yêu cầu vào nhóm</summary>
+    /// <summary>Danh sách thành viên + yêu cầu vào nhóm (admin hoặc chủ hội nhóm)</summary>
     [HttpGet("{id:guid}/members")]
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public async Task<IActionResult> GetMembers(Guid id, [FromQuery] BusinessGroupMemberQueryDto query)
     {
         var result = await _groupService.GetMembersAsync(id, query);
         return OkPaged(result, _localizer["BusinessGroup_MembersRetrieved"]);
     }
 
-    /// <summary>Duyệt / từ chối yêu cầu vào nhóm</summary>
+    /// <summary>Duyệt / từ chối yêu cầu vào nhóm (admin duyệt nhóm ngành, chủ hội duyệt thành viên hội)</summary>
     [HttpPut("{id:guid}/members/{memberId:guid}/status")]
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public async Task<IActionResult> UpdateMemberStatus(Guid id, Guid memberId, [FromBody] UpdateGroupMemberStatusDto request)
     {
         var result = await _groupService.UpdateMemberStatusAsync(id, memberId, request);
         return Ok(result, _localizer["BusinessGroup_MemberStatusUpdated"]);
     }
 
-    /// <summary>Xoá thành viên khỏi nhóm</summary>
+    /// <summary>Xoá thành viên khỏi nhóm (admin hoặc chủ hội nhóm)</summary>
     [HttpDelete("{id:guid}/members/{memberId:guid}")]
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public async Task<IActionResult> RemoveMember(Guid id, Guid memberId)
     {
         await _groupService.RemoveMemberAsync(id, memberId);

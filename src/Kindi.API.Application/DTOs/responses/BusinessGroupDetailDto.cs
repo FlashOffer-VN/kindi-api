@@ -16,6 +16,16 @@ public class BusinessGroupDetailDto : IMapFrom<BusinessGroup>
     public Guid? BusinessFieldId { get; set; }
     public string? BusinessFieldName { get; set; }
 
+    public BusinessGroupType Type { get; set; }
+    public string? Topic { get; set; }
+    public GroupApprovalStatus ApprovalStatus { get; set; }
+    public string? RejectedReason { get; set; }
+
+    /// <summary>Người đang xem là chủ hội (được duyệt thành viên).</summary>
+    public bool IsOwner { get; set; }
+
+    public Guid? CreatedByUserId { get; set; }
+
     public string? CoverImageUrl { get; set; }
     public bool RequiresApproval { get; set; }
     public bool IsActive { get; set; }
