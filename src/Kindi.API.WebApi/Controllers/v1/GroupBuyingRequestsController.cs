@@ -87,12 +87,8 @@ public class GroupBuyingRequestsController : ApiControllerBase
     [HttpGet]
     public async Task<IActionResult> GetList([FromQuery] GetGroupBuyingRequestsQueryDto query)
     {
-        if (!string.IsNullOrEmpty(query.Status) && !Enum.TryParse<GroupBuyingStatus>(query.Status, true, out _))
-        {
-            return BadRequest(_localizer["GroupBuyingRequest_InvalidStatus"],
-                new List<string> { _localizer["GroupBuyingRequest_InvalidStatusMessage"] });
-        }
-
+        // Client có thể gửi status rỗng hoặc chuỗi rác ("undefined"/"null") khi không lọc —
+        // coi như KHÔNG lọc thay vì trả 400 làm hỏng cả danh sách.
         var result = await _service.GetPagedAsync(query);
         return OkPaged(result, _localizer["GroupBuyingRequest_ListRetrievedSuccess"]);
     }
