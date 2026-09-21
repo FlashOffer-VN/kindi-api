@@ -18,6 +18,14 @@ try
     LoadEnvironmentFile();
 
     var builder = WebApplication.CreateBuilder(args);
+
+    // wwwroot không có trong git nên phải tạo trước khi build host:
+    // nếu thiếu, ASP.NET không nhận diện web root và UseStaticFiles() không phục vụ ảnh upload (/uploads/...)
+    var webRootPath = Path.Combine(builder.Environment.ContentRootPath, "wwwroot");
+    Directory.CreateDirectory(webRootPath);
+    builder.WebHost.UseWebRoot(webRootPath);
+    Log.Information("✅ Web root ready: {WebRootPath}", webRootPath);
+
     ConfigureServices(builder);
 
     var app = builder.Build();

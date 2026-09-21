@@ -357,9 +357,22 @@ public class BusinessGroupService : IBusinessGroupService
         }
         else
         {
-            // Thành viên chỉ thảo luận hoặc gửi yêu cầu kín cho admin — không gửi offer/yêu cầu của admin
             post.Title = string.IsNullOrWhiteSpace(request.Title) ? null : request.Title.Trim();
-            post.Type = GroupPostType.Discussion;
+
+            // Thành viên chỉ được thảo luận, HOẶC chuyển tiếp yêu cầu mua chung / tìm nhà cung cấp
+            // của hệ thống vào nhóm (bắt buộc kèm bản ghi gốc để đối chiếu) — không gửi offer/thông báo của admin
+            var isForwardedRequest =
+                request.RefId.HasValue &&
+                !string.IsNullOrWhiteSpace(request.RefCode) &&
+                (request.Type == GroupPostType.GroupBuyingRequest || request.Type == GroupPostType.SupplierRequest);
+
+            post.Type = isForwardedRequest ? request.Type : GroupPostType.Discussion;
+
+            // Bài chuyển tiếp luôn hiển thị cho cả nhóm, không để ở dạng yêu cầu kín cho admin
+            if (isForwardedRequest)
+            {
+                post.IsPrivateToAdmin = false;
+            }
         }
 
         await _postRepository.AddAsync(post);
