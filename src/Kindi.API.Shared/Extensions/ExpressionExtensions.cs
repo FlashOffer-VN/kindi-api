@@ -5,10 +5,10 @@ namespace Kindi.API.Shared.Extensions;
 public static class ExpressionExtensions
 {
     public static Expression<Func<T, bool>> And<T>(
-        this Expression<Func<T, bool>> first,
-        Expression<Func<T, bool>> second)
+        this Expression<Func<T, bool>>? first,
+        Expression<Func<T, bool>>? second)
     {
-        if (first == null) return second;
+        if (first == null) return second ?? throw new ArgumentNullException(nameof(second));
         if (second == null) return first;
 
         var parameter = Expression.Parameter(typeof(T));
@@ -18,14 +18,14 @@ public static class ExpressionExtensions
         var right = rightVisitor.Visit(second.Body);
 
         return Expression.Lambda<Func<T, bool>>(
-            Expression.AndAlso(left, right), parameter);
+            Expression.AndAlso(left!, right!), parameter);
     }
 
     public static Expression<Func<T, bool>> Or<T>(
-        this Expression<Func<T, bool>> first,
-        Expression<Func<T, bool>> second)
+        this Expression<Func<T, bool>>? first,
+        Expression<Func<T, bool>>? second)
     {
-        if (first == null) return second;
+        if (first == null) return second ?? throw new ArgumentNullException(nameof(second));
         if (second == null) return first;
 
         var parameter = Expression.Parameter(typeof(T));
@@ -35,7 +35,7 @@ public static class ExpressionExtensions
         var right = rightVisitor.Visit(second.Body);
 
         return Expression.Lambda<Func<T, bool>>(
-            Expression.OrElse(left, right), parameter);
+            Expression.OrElse(left!, right!), parameter);
     }
 
     public static Expression<Func<T, bool>> AndAlso<T>(

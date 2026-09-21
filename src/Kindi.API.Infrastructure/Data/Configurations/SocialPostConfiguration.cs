@@ -42,7 +42,7 @@ public class SocialPostConfiguration : IEntityTypeConfiguration<SocialPost>
                 v => System.Text.Json.JsonSerializer.Deserialize<List<string>>(v, (System.Text.Json.JsonSerializerOptions?)null) ?? new List<string>()
             )
             .Metadata.SetValueComparer(new ValueComparer<List<string>>(
-                (c1, c2) => c1.SequenceEqual(c2),
+                (c1, c2) => (c1 ?? new List<string>()).SequenceEqual(c2 ?? new List<string>()),
                 c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
                 c => c.ToList()
             ));

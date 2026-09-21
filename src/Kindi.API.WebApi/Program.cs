@@ -399,9 +399,4 @@ public partial class Program
     // Empty constructor is required for startup
     protected Program() { }
 
-    public static async Task Main(string[] args)
-    {
-        // Entry point - code in top-level will execute
-
-    }
 }

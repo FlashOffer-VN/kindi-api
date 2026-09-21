@@ -248,7 +248,7 @@ public class SocialService : ISocialService
                 .Include(p => p.Author)
                 .Include(p => p.PostTags)
                     .ThenInclude(pt => pt.Tag)
-        );
+        ) ?? throw new NotFoundException(_localizer["Social_NotFound"]);
 
         var response = _mapper.Map<PostResponse>(createdPost);
         response.Author = _mapper.Map<AuthorDto>(createdPost.Author);
@@ -334,7 +334,7 @@ public class SocialService : ISocialService
                 .Include(p => p.Author)
                 .Include(p => p.PostTags)
                     .ThenInclude(pt => pt.Tag)
-        );
+        ) ?? throw new NotFoundException(_localizer["Social_NotFound"]);
 
         var response = _mapper.Map<PostResponse>(updatedPost);
         response.Author = _mapper.Map<AuthorDto>(updatedPost.Author);
