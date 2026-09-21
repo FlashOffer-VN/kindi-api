@@ -122,6 +122,22 @@ public class UserService : IUserService
         return user.Id;
     }
 
+    public async Task<User?> FindByIdAsync(Guid userId)
+        => await _userRepo.GetFirstAsync(u => u.Id == userId && !u.IsDeleted);
+
+    public async Task<User?> FindByPhoneOrEmailAsync(string? phone, string? email)
+    {
+        var normalizedPhone = string.IsNullOrWhiteSpace(phone) ? null : phone.Trim();
+        var normalizedEmail = string.IsNullOrWhiteSpace(email) ? null : email.Trim();
+
+        if (normalizedPhone == null && normalizedEmail == null)
+            return null;
+
+        return await _userRepo.GetFirstAsync(u =>
+            (normalizedPhone != null && u.Phone == normalizedPhone) ||
+            (normalizedEmail != null && u.Email == normalizedEmail));
+    }
+
     public async Task<User?> GetCurrentUserAsync()
     {
         var userId = _currentUserService.UserId;

@@ -7,6 +7,12 @@ namespace Kindi.API.Application.DTOs.Responses;
 
 public class CollaboratorResponseDto : IMapFrom<Collaborator>
 {
+
+    /// <summary>
+    /// Chỉ có giá trị ở response của POST /Collaborators (đăng ký công khai):
+    /// thông tin tài khoản vừa tạo/dùng lại để client hiển thị cho người đăng ký.
+    /// </summary>
+    public AccountCredentialsDto? Account { get; set; }
     public Guid Id { get; set; }
     public Guid UserId { get; set; }
     public string FullName { get; set; } = string.Empty;

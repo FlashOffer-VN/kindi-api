@@ -240,6 +240,162 @@
 	<data name="NewPasswordSameAsCurrent" xml:space="preserve">
     <value>Mật khẩu mới phải khác mật khẩu hiện tại</value>
   </data>
+	<data name="BusinessGroup_NotFound" xml:space="preserve">
+    <value>Không tìm thấy nhóm</value>
+  </data>
+	<data name="BusinessGroup_NotOpen" xml:space="preserve">
+    <value>Nhóm này đang tạm đóng, vui lòng thử lại sau</value>
+  </data>
+	<data name="BusinessGroup_ContactRequired" xml:space="preserve">
+    <value>Vui lòng nhập họ tên và số điện thoại để được vào nhóm</value>
+  </data>
+	<data name="BusinessGroup_AlreadyJoined" xml:space="preserve">
+    <value>Bạn đã ở trong nhóm này hoặc đang chờ duyệt</value>
+  </data>
+	<data name="BusinessGroup_NotMember" xml:space="preserve">
+    <value>Bạn chưa tham gia nhóm này</value>
+  </data>
+	<data name="BusinessGroup_AdminOnly" xml:space="preserve">
+    <value>Chỉ quản trị viên được xem yêu cầu kín</value>
+  </data>
+	<data name="BusinessGroup_JoinToViewPosts" xml:space="preserve">
+    <value>Bạn cần là thành viên đã được duyệt để xem trao đổi trong nhóm</value>
+  </data>
+	<data name="BusinessGroup_PostNotFound" xml:space="preserve">
+    <value>Không tìm thấy bài đăng trong nhóm</value>
+  </data>
+	<data name="BusinessGroup_CommentNotFound" xml:space="preserve">
+    <value>Không tìm thấy bình luận</value>
+  </data>
+	<data name="BusinessGroup_MemberNotFound" xml:space="preserve">
+    <value>Không tìm thấy thành viên trong nhóm</value>
+  </data>
+	<data name="BusinessGroup_DeletePostForbidden" xml:space="preserve">
+    <value>Bạn không có quyền xoá bài này</value>
+  </data>
+	<data name="BusinessGroup_DeleteCommentForbidden" xml:space="preserve">
+    <value>Bạn không có quyền xoá bình luận này</value>
+  </data>
+	<data name="BusinessGroup_JoinSuccess" xml:space="preserve">
+    <value>Đã gửi yêu cầu vào nhóm</value>
+  </data>
+	<data name="BusinessGroup_JoinActive" xml:space="preserve">
+    <value>Bạn đã vào nhóm thành công</value>
+  </data>
+	<data name="BusinessGroup_JoinPending" xml:space="preserve">
+    <value>Yêu cầu vào nhóm đã được gửi, vui lòng chờ quản trị viên duyệt</value>
+  </data>
+	<data name="BusinessGroup_LeaveSuccess" xml:space="preserve">
+    <value>Đã rời nhóm</value>
+  </data>
+	<data name="BusinessGroup_ListRetrieved" xml:space="preserve">
+    <value>Lấy danh sách nhóm thành công</value>
+  </data>
+	<data name="BusinessGroup_DetailRetrieved" xml:space="preserve">
+    <value>Lấy thông tin nhóm thành công</value>
+  </data>
+	<data name="BusinessGroup_Created" xml:space="preserve">
+    <value>Tạo nhóm thành công</value>
+  </data>
+	<data name="BusinessGroup_Updated" xml:space="preserve">
+    <value>Cập nhật nhóm thành công</value>
+  </data>
+	<data name="BusinessGroup_Deleted" xml:space="preserve">
+    <value>Đã xoá nhóm</value>
+  </data>
+	<data name="BusinessGroup_MembersRetrieved" xml:space="preserve">
+    <value>Lấy danh sách thành viên thành công</value>
+  </data>
+	<data name="BusinessGroup_MemberStatusUpdated" xml:space="preserve">
+    <value>Cập nhật trạng thái thành viên thành công</value>
+  </data>
+	<data name="BusinessGroup_MemberRemoved" xml:space="preserve">
+    <value>Đã xoá thành viên khỏi nhóm</value>
+  </data>
+	<data name="BusinessGroup_PostsRetrieved" xml:space="preserve">
+    <value>Lấy danh sách bài trong nhóm thành công</value>
+  </data>
+	<data name="BusinessGroup_PostCreated" xml:space="preserve">
+    <value>Đã đăng bài trong nhóm</value>
+  </data>
+	<data name="BusinessGroup_PostUpdated" xml:space="preserve">
+    <value>Cập nhật bài trong nhóm thành công</value>
+  </data>
+	<data name="BusinessGroup_PostDeleted" xml:space="preserve">
+    <value>Đã xoá bài trong nhóm</value>
+  </data>
+	<data name="BusinessGroup_CommentsRetrieved" xml:space="preserve">
+    <value>Lấy bình luận thành công</value>
+  </data>
+	<data name="BusinessGroup_CommentCreated" xml:space="preserve">
+    <value>Đã gửi bình luận</value>
+  </data>
+	<data name="BusinessGroup_CommentDeleted" xml:space="preserve">
+    <value>Đã xoá bình luận</value>
+  </data>
+	<data name="BusinessGroup_NameRequired" xml:space="preserve">
+    <value>Vui lòng nhập tên nhóm</value>
+  </data>
+	<data name="BusinessGroup_NameMinLength" xml:space="preserve">
+    <value>Tên nhóm phải có ít nhất 3 ký tự</value>
+  </data>
+	<data name="BusinessGroup_NameMaxLength" xml:space="preserve">
+    <value>Tên nhóm tối đa 200 ký tự</value>
+  </data>
+	<data name="BusinessGroup_DescriptionMaxLength" xml:space="preserve">
+    <value>Mô tả nhóm tối đa 1000 ký tự</value>
+  </data>
+	<data name="BusinessGroup_CoverUrlMaxLength" xml:space="preserve">
+    <value>Đường dẫn ảnh bìa tối đa 500 ký tự</value>
+  </data>
+	<data name="BusinessGroup_FullNameMaxLength" xml:space="preserve">
+    <value>Họ tên tối đa 100 ký tự</value>
+  </data>
+	<data name="BusinessGroup_PhoneMaxLength" xml:space="preserve">
+    <value>Số điện thoại tối đa 15 ký tự</value>
+  </data>
+	<data name="BusinessGroup_EmailInvalid" xml:space="preserve">
+    <value>Email không hợp lệ</value>
+  </data>
+	<data name="BusinessGroup_EmailMaxLength" xml:space="preserve">
+    <value>Email tối đa 100 ký tự</value>
+  </data>
+	<data name="BusinessGroup_NoteMaxLength" xml:space="preserve">
+    <value>Ghi chú tối đa 1000 ký tự</value>
+  </data>
+	<data name="BusinessGroup_PostTitleMaxLength" xml:space="preserve">
+    <value>Tiêu đề bài tối đa 200 ký tự</value>
+  </data>
+	<data name="BusinessGroup_PostContentRequired" xml:space="preserve">
+    <value>Vui lòng nhập nội dung</value>
+  </data>
+	<data name="BusinessGroup_PostContentMinLength" xml:space="preserve">
+    <value>Nội dung phải có ít nhất 2 ký tự</value>
+  </data>
+	<data name="BusinessGroup_PostContentMaxLength" xml:space="preserve">
+    <value>Nội dung tối đa 4000 ký tự</value>
+  </data>
+	<data name="BusinessGroup_RefCodeMaxLength" xml:space="preserve">
+    <value>Mã tham chiếu tối đa 30 ký tự</value>
+  </data>
+	<data name="BusinessGroup_CommentRequired" xml:space="preserve">
+    <value>Vui lòng nhập nội dung bình luận</value>
+  </data>
+	<data name="BusinessGroup_CommentMaxLength" xml:space="preserve">
+    <value>Bình luận tối đa 2000 ký tự</value>
+  </data>
+	<data name="BusinessGroup_MemberStatusInvalid" xml:space="preserve">
+    <value>Trạng thái thành viên không hợp lệ</value>
+  </data>
+	<data name="BusinessGroup_MemberStatusInvalidMessage" xml:space="preserve">
+    <value>Trạng thái chỉ nhận: Active (duyệt) hoặc Rejected (từ chối)</value>
+  </data>
+	<data name="BusinessGroup_RejectionReasonRequired" xml:space="preserve">
+    <value>Vui lòng nhập lý do từ chối</value>
+  </data>
+	<data name="BusinessGroup_RejectionReasonMaxLength" xml:space="preserve">
+    <value>Lý do từ chối tối đa 500 ký tự</value>
+  </data>
 	<data name="ChangePasswordFailed" xml:space="preserve">
     <value>Đổi mật khẩu thất bại</value>
   </data>

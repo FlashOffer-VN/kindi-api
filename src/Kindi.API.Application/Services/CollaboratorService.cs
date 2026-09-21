@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using Kindi.API.Application.Common.Helpers;
 using Kindi.API.Application.Common.Interfaces;
 using Kindi.API.Application.DTOs.Requests;
@@ -60,18 +60,33 @@ public class CollaboratorService : ICollaboratorService
         Guid userGuid;
         var userId = _currentUserService.UserId;
 
+        // Đăng ký công khai (chưa đăng nhập): cần biết trước đây là tài khoản mới hay dùng lại
+        // để trả thông tin đăng nhập (username user<sđt> / mật khẩu = SĐT) cho người đăng ký.
+        var isPublicRegistration = string.IsNullOrEmpty(userId);
+        var isNewAccount = false;
+        string? accountUsername = null;
+
         if (!string.IsNullOrEmpty(userId))
         {
             userGuid = Guid.Parse(userId);
         }
         else
         {
+            var existingUser = await _userService.FindByPhoneOrEmailAsync(request.Phone, request.Email);
+            isNewAccount = existingUser == null;
+
             // UserService sẽ tự kiểm tra phone/email và throw exception nếu trùng
             userGuid = await _userService.GetOrCreateUserWithPhonePasswordAsync(
                 request.FullName,
                 request.Phone,
                 request.Email
             );
+
+            if (isNewAccount)
+            {
+                var createdUser = await _userService.FindByPhoneOrEmailAsync(request.Phone, request.Email);
+                accountUsername = createdUser?.Username;
+            }
         }
 
         //  Tạo Collaborator
@@ -145,7 +160,20 @@ public class CollaboratorService : ICollaboratorService
         await _repository.AddAsync(collaborator);
         await _repository.SaveChangesAsync();
 
-        return _mapper.Map<CollaboratorResponseDto>(collaborator);
+        var response = _mapper.Map<CollaboratorResponseDto>(collaborator);
+
+        if (isPublicRegistration)
+        {
+            response.Account = new AccountCredentialsDto
+            {
+                IsNewAccount = isNewAccount,
+                AccountAlreadyExisted = !isNewAccount,
+                Username = accountUsername,
+                PasswordIsPhone = isNewAccount
+            };
+        }
+
+        return response;
     }
 
     private async Task<string> GenerateUniqueCollaboratorCodeAsync()

@@ -246,6 +246,162 @@
 	<data name="NewPasswordSameAsCurrent" xml:space="preserve">
     <value>New password must be different from the current password</value>
   </data>
+	<data name="BusinessGroup_NotFound" xml:space="preserve">
+    <value>Group not found</value>
+  </data>
+	<data name="BusinessGroup_NotOpen" xml:space="preserve">
+    <value>This group is currently closed, please try again later</value>
+  </data>
+	<data name="BusinessGroup_ContactRequired" xml:space="preserve">
+    <value>Please provide your full name and phone number to join the group</value>
+  </data>
+	<data name="BusinessGroup_AlreadyJoined" xml:space="preserve">
+    <value>You are already in this group or waiting for approval</value>
+  </data>
+	<data name="BusinessGroup_NotMember" xml:space="preserve">
+    <value>You have not joined this group</value>
+  </data>
+	<data name="BusinessGroup_AdminOnly" xml:space="preserve">
+    <value>Only administrators can view private requests</value>
+  </data>
+	<data name="BusinessGroup_JoinToViewPosts" xml:space="preserve">
+    <value>You need to be an approved member to view discussions in this group</value>
+  </data>
+	<data name="BusinessGroup_PostNotFound" xml:space="preserve">
+    <value>Group post not found</value>
+  </data>
+	<data name="BusinessGroup_CommentNotFound" xml:space="preserve">
+    <value>Comment not found</value>
+  </data>
+	<data name="BusinessGroup_MemberNotFound" xml:space="preserve">
+    <value>Group member not found</value>
+  </data>
+	<data name="BusinessGroup_DeletePostForbidden" xml:space="preserve">
+    <value>You are not allowed to delete this post</value>
+  </data>
+	<data name="BusinessGroup_DeleteCommentForbidden" xml:space="preserve">
+    <value>You are not allowed to delete this comment</value>
+  </data>
+	<data name="BusinessGroup_JoinSuccess" xml:space="preserve">
+    <value>Join request submitted</value>
+  </data>
+	<data name="BusinessGroup_JoinActive" xml:space="preserve">
+    <value>You have joined the group</value>
+  </data>
+	<data name="BusinessGroup_JoinPending" xml:space="preserve">
+    <value>Your request has been sent, please wait for administrator approval</value>
+  </data>
+	<data name="BusinessGroup_LeaveSuccess" xml:space="preserve">
+    <value>You have left the group</value>
+  </data>
+	<data name="BusinessGroup_ListRetrieved" xml:space="preserve">
+    <value>Groups retrieved successfully</value>
+  </data>
+	<data name="BusinessGroup_DetailRetrieved" xml:space="preserve">
+    <value>Group retrieved successfully</value>
+  </data>
+	<data name="BusinessGroup_Created" xml:space="preserve">
+    <value>Group created successfully</value>
+  </data>
+	<data name="BusinessGroup_Updated" xml:space="preserve">
+    <value>Group updated successfully</value>
+  </data>
+	<data name="BusinessGroup_Deleted" xml:space="preserve">
+    <value>Group deleted</value>
+  </data>
+	<data name="BusinessGroup_MembersRetrieved" xml:space="preserve">
+    <value>Members retrieved successfully</value>
+  </data>
+	<data name="BusinessGroup_MemberStatusUpdated" xml:space="preserve">
+    <value>Member status updated successfully</value>
+  </data>
+	<data name="BusinessGroup_MemberRemoved" xml:space="preserve">
+    <value>Member removed from the group</value>
+  </data>
+	<data name="BusinessGroup_PostsRetrieved" xml:space="preserve">
+    <value>Group posts retrieved successfully</value>
+  </data>
+	<data name="BusinessGroup_PostCreated" xml:space="preserve">
+    <value>Post created in the group</value>
+  </data>
+	<data name="BusinessGroup_PostUpdated" xml:space="preserve">
+    <value>Group post updated successfully</value>
+  </data>
+	<data name="BusinessGroup_PostDeleted" xml:space="preserve">
+    <value>Group post deleted</value>
+  </data>
+	<data name="BusinessGroup_CommentsRetrieved" xml:space="preserve">
+    <value>Comments retrieved successfully</value>
+  </data>
+	<data name="BusinessGroup_CommentCreated" xml:space="preserve">
+    <value>Comment posted</value>
+  </data>
+	<data name="BusinessGroup_CommentDeleted" xml:space="preserve">
+    <value>Comment deleted</value>
+  </data>
+	<data name="BusinessGroup_NameRequired" xml:space="preserve">
+    <value>Please enter the group name</value>
+  </data>
+	<data name="BusinessGroup_NameMinLength" xml:space="preserve">
+    <value>Group name must be at least 3 characters</value>
+  </data>
+	<data name="BusinessGroup_NameMaxLength" xml:space="preserve">
+    <value>Group name must not exceed 200 characters</value>
+  </data>
+	<data name="BusinessGroup_DescriptionMaxLength" xml:space="preserve">
+    <value>Description must not exceed 1000 characters</value>
+  </data>
+	<data name="BusinessGroup_CoverUrlMaxLength" xml:space="preserve">
+    <value>Cover image URL must not exceed 500 characters</value>
+  </data>
+	<data name="BusinessGroup_FullNameMaxLength" xml:space="preserve">
+    <value>Full name must not exceed 100 characters</value>
+  </data>
+	<data name="BusinessGroup_PhoneMaxLength" xml:space="preserve">
+    <value>Phone number must not exceed 15 characters</value>
+  </data>
+	<data name="BusinessGroup_EmailInvalid" xml:space="preserve">
+    <value>Email is not valid</value>
+  </data>
+	<data name="BusinessGroup_EmailMaxLength" xml:space="preserve">
+    <value>Email must not exceed 100 characters</value>
+  </data>
+	<data name="BusinessGroup_NoteMaxLength" xml:space="preserve">
+    <value>Note must not exceed 1000 characters</value>
+  </data>
+	<data name="BusinessGroup_PostTitleMaxLength" xml:space="preserve">
+    <value>Title must not exceed 200 characters</value>
+  </data>
+	<data name="BusinessGroup_PostContentRequired" xml:space="preserve">
+    <value>Please enter the content</value>
+  </data>
+	<data name="BusinessGroup_PostContentMinLength" xml:space="preserve">
+    <value>Content must be at least 2 characters</value>
+  </data>
+	<data name="BusinessGroup_PostContentMaxLength" xml:space="preserve">
+    <value>Content must not exceed 4000 characters</value>
+  </data>
+	<data name="BusinessGroup_RefCodeMaxLength" xml:space="preserve">
+    <value>Reference code must not exceed 30 characters</value>
+  </data>
+	<data name="BusinessGroup_CommentRequired" xml:space="preserve">
+    <value>Please enter the comment content</value>
+  </data>
+	<data name="BusinessGroup_CommentMaxLength" xml:space="preserve">
+    <value>Comment must not exceed 2000 characters</value>
+  </data>
+	<data name="BusinessGroup_MemberStatusInvalid" xml:space="preserve">
+    <value>Member status is invalid</value>
+  </data>
+	<data name="BusinessGroup_MemberStatusInvalidMessage" xml:space="preserve">
+    <value>Status accepts only Active (approve) or Rejected (reject)</value>
+  </data>
+	<data name="BusinessGroup_RejectionReasonRequired" xml:space="preserve">
+    <value>Please enter the rejection reason</value>
+  </data>
+	<data name="BusinessGroup_RejectionReasonMaxLength" xml:space="preserve">
+    <value>Rejection reason must not exceed 500 characters</value>
+  </data>
 	<data name="ChangePasswordFailed" xml:space="preserve">
     <value>Password change failed</value>
   </data>

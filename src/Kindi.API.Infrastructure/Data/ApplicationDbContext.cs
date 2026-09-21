@@ -1,4 +1,4 @@
-using Kindi.API.Domain.Entities;
+﻿using Kindi.API.Domain.Entities;
 using Kindi.API.Domain.Interfaces;
 using Kindi.API.Shared.Common.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +32,10 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Tag> Tags { get; set; }
     public DbSet<PostTag> PostTags { get; set; }
     public DbSet<BusinessField> BusinessFields { get; set; }
+    public DbSet<BusinessGroup> BusinessGroups { get; set; }
+    public DbSet<BusinessGroupMember> BusinessGroupMembers { get; set; }
+    public DbSet<BusinessGroupPost> BusinessGroupPosts { get; set; }
+    public DbSet<BusinessGroupComment> BusinessGroupComments { get; set; }
     public DbSet<AuditLog> AuditLogs { get; set; }
     public DbSet<AuthAuditLog> AuthAuditLogs { get; set; }
 
