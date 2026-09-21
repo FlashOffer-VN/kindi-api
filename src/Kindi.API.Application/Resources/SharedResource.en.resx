@@ -1144,4 +1144,7 @@
   <data name="GroupBuyingRequest_ProductNameMaxLength">
     <value>Product name must not exceed 255 characters</value>
   </data>
+  <data name="BusinessGroup_ForwardedGroupsRetrieved" xml:space="preserve">
+    <value>Forwarded groups retrieved successfully</value>
+  </data>
 </root>

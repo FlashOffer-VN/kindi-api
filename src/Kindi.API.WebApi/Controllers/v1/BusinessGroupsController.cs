@@ -101,6 +101,17 @@ public class BusinessGroupsController : ApiControllerBase
     // =====================================================================
 
     /// <summary>Danh sách bài trong nhóm</summary>
+    /// <summary>
+    /// Nhóm ngành đã có bài chuyển tiếp cho bản ghi này (admin) — dùng để cảnh báo trước khi gửi.
+    /// </summary>
+    [HttpGet("forwarded-groups")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> GetForwardedGroups([FromQuery] Guid refId)
+    {
+        var data = await _groupService.GetForwardedGroupsAsync(refId);
+        return Ok(data, _localizer["BusinessGroup_ForwardedGroupsRetrieved"]);
+    }
+
     [HttpGet("{id:guid}/posts")]
     [Authorize]
     public async Task<IActionResult> GetPosts(Guid id, [FromQuery] GroupPostQueryDto query)

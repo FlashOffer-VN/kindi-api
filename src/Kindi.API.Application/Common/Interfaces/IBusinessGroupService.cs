@@ -36,4 +36,7 @@ public interface IBusinessGroupService
     Task<BusinessGroupMemberResponseDto> UpdateMemberStatusAsync(Guid id, Guid memberId, UpdateGroupMemberStatusDto request);
     Task RemoveMemberAsync(Guid id, Guid memberId);
     Task<BusinessGroupPostResponseDto> UpdatePostAsync(Guid groupId, Guid postId, UpdateBusinessGroupPostDto request);
+
+    /// <summary>Danh sách nhóm ngành đã có bài chuyển tiếp cho bản ghi này (để không gửi trùng).</summary>
+    Task<List<ForwardedGroupResponseDto>> GetForwardedGroupsAsync(Guid refId);
 }

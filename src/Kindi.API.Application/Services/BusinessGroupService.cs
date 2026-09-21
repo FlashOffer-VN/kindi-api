@@ -391,6 +391,33 @@ public class BusinessGroupService : IBusinessGroupService
         return _mapper.Map<BusinessGroupPostResponseDto>(post);
     }
 
+    /// <summary>
+    /// Nhóm ngành đã có bài gắn với bản ghi này — UI dùng để cảnh báo "đã gửi" và không chuyển tiếp lại.
+    /// </summary>
+    public async Task<List<ForwardedGroupResponseDto>> GetForwardedGroupsAsync(Guid refId)
+    {
+        if (refId == Guid.Empty) return new List<ForwardedGroupResponseDto>();
+
+        var groupIds = await _queryService.GetAllNoTracking<BusinessGroupPost>()
+            .Where(x => x.RefId == refId)
+            .Select(x => x.BusinessGroupId)
+            .Distinct()
+            .ToListAsync();
+
+        if (groupIds.Count == 0) return new List<ForwardedGroupResponseDto>();
+
+        return await _queryService.GetAllNoTracking<BusinessGroup>()
+            .Where(x => groupIds.Contains(x.Id) && x.Type == BusinessGroupType.Industry)
+            .OrderBy(x => x.Name)
+            .Select(x => new ForwardedGroupResponseDto
+            {
+                GroupId = x.Id,
+                GroupCode = x.BusinessGroupCode,
+                Name = x.Name
+            })
+            .ToListAsync();
+    }
+
     public async Task<BusinessGroupPostResponseDto> UpdatePostAsync(Guid groupId, Guid postId, UpdateBusinessGroupPostDto request)
     {
         var post = await _postRepository.GetFirstAsync(p => p.Id == postId && p.BusinessGroupId == groupId && !p.IsDeleted)

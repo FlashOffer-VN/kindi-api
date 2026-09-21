@@ -1082,4 +1082,7 @@
   <data name="GroupBuyingRequest_ProductNameMaxLength">
     <value>Tên sản phẩm tối đa 255 ký tự</value>
   </data>
+  <data name="BusinessGroup_ForwardedGroupsRetrieved" xml:space="preserve">
+    <value>Lấy danh sách nhóm đã gửi thành công</value>
+  </data>
 </root>
