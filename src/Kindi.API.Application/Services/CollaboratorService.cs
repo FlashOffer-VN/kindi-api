@@ -89,6 +89,21 @@ public class CollaboratorService : ICollaboratorService
             }
         }
 
+        //  SĐT/email đã đăng ký CTV trước đó → báo rõ ràng (2 cột này có unique index,
+        //  để DB ném lỗi sẽ thành 500 khó hiểu cho người đăng ký).
+        var existingCollaborator = await _repository.GetFirstAsync(c =>
+            !c.IsDeleted &&
+            (c.Phone == request.Phone ||
+             (!string.IsNullOrEmpty(request.Email) && c.Email == request.Email)));
+
+        if (existingCollaborator != null)
+        {
+            var isPhoneDuplicate = existingCollaborator.Phone == request.Phone;
+            throw new BadRequestException(isPhoneDuplicate
+                ? _localizer["Collaborator_PhoneAlreadyExists"]
+                : _localizer["Collaborator_EmailAlreadyExists"]);
+        }
+
         //  Tạo Collaborator
         var collaborator = _mapper.Map<Collaborator>(request);
         collaborator.UserId = userGuid;
