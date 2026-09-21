@@ -94,7 +94,8 @@ public class PartnerService : IPartnerService
 
         // 3. Map request -> Partner entity
         var partner = _mapper.Map<Partner>(request);
-        partner.UserId = Guid.Parse(userId);
+        // userId luôn có giá trị: người dùng đang đăng nhập, hoặc tài khoản vừa tạo ở nhánh đăng ký công khai
+        partner.UserId = Guid.Parse(userId!);
 
         partner.PartnerCode = GeneratePartnerCode();
 

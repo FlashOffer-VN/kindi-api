@@ -208,8 +208,8 @@ public class BusinessGroupService : IBusinessGroupService
                 throw new BusinessException(_localizer["BusinessGroup_AlreadyJoined"]);
 
             member.Status = memberStatus;
-            member.FullName = FirstNonEmpty(request.FullName, account?.FullName, member.FullName);
-            member.Phone = FirstNonEmpty(request.Phone, account?.Phone, member.Phone);
+            member.FullName = FirstNonEmpty(request.FullName, account?.FullName, member.FullName) ?? member.FullName;
+            member.Phone = FirstNonEmpty(request.Phone, account?.Phone, member.Phone) ?? member.Phone;
             member.Zalo = FirstNonEmpty(request.Zalo, account?.Phone, member.Zalo);
             member.Email = FirstNonEmpty(request.Email, account?.Email, member.Email);
             member.Note = request.Note?.Trim();

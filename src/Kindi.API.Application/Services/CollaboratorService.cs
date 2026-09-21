@@ -302,9 +302,9 @@ public class CollaboratorService : ICollaboratorService
         DateTime? toDate = null)
     {
         Expression<Func<Collaborator, bool>> predicate = c => true;
-        var searchUpper = search?.ToUpperInvariant();
         if (!string.IsNullOrEmpty(search))
         {
+            var searchUpper = search.ToUpperInvariant();
             predicate = c => (c.FullName.Contains(searchUpper) ||
                              c.Phone.Contains(searchUpper) ||
                              (c.Email != null && c.Email.Contains(searchUpper)) ||
