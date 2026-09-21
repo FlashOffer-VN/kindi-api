@@ -17,13 +17,19 @@ try
     // Load .env
     LoadEnvironmentFile();
 
-    var builder = WebApplication.CreateBuilder(args);
-
-    // wwwroot không có trong git nên phải tạo trước khi build host:
-    // nếu thiếu, ASP.NET không nhận diện web root và UseStaticFiles() không phục vụ ảnh upload (/uploads/...)
-    var webRootPath = Path.Combine(builder.Environment.ContentRootPath, "wwwroot");
+    // wwwroot không có trong git: phải tạo TRƯỚC khi tạo builder và khai báo ngay trong WebApplicationOptions.
+    // (Gọi builder.WebHost.UseWebRoot() sau đó sẽ ném NotSupportedException: "The web root changed from ..."
+    //  vì với WebApplicationBuilder không được đổi cấu hình host sau khi đã tạo.)
+    var contentRoot = Directory.GetCurrentDirectory();
+    var webRootPath = Path.Combine(contentRoot, "wwwroot");
     Directory.CreateDirectory(webRootPath);
-    builder.WebHost.UseWebRoot(webRootPath);
+
+    var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+    {
+        Args = args,
+        WebRootPath = webRootPath
+    });
+
     Log.Information("✅ Web root ready: {WebRootPath}", webRootPath);
 
     ConfigureServices(builder);
