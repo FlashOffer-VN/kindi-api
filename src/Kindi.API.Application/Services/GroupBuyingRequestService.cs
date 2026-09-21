@@ -212,16 +212,26 @@ public class GroupBuyingRequestService : IGroupBuyingRequestService
         if (participant != null && participant.Status == GroupBuyingParticipantStatus.Joined)
             throw new BusinessException(_localizer["GroupBuyingRequest_AlreadyJoined"]);
 
+        // Người đã đăng nhập không phải nhập lại thông tin → lấy từ hồ sơ tài khoản của họ
+        // để bản ghi tham gia luôn có họ tên/SĐT/email (admin cần để liên hệ).
+        var account = await _userRepository.GetByIdAsync(userId);
+        var participantFullName = !string.IsNullOrWhiteSpace(request.FullName) ? request.FullName.Trim() : (account?.FullName ?? string.Empty);
+        var participantPhone = !string.IsNullOrWhiteSpace(request.Phone) ? request.Phone.Trim() : (account?.Phone ?? string.Empty);
+        var participantZalo = !string.IsNullOrWhiteSpace(request.Zalo) ? request.Zalo.Trim() : account?.Phone;
+        var participantEmail = !string.IsNullOrWhiteSpace(request.Email)
+            ? request.Email.Trim()
+            : (string.IsNullOrWhiteSpace(account?.Email) ? null : account!.Email);
+
         if (participant == null)
         {
             participant = new GroupBuyingParticipant
             {
                 GroupBuyingRequestId = entity.Id,
                 UserId = userId,
-                FullName = string.IsNullOrWhiteSpace(request.FullName) ? string.Empty : request.FullName.Trim(),
-                Phone = string.IsNullOrWhiteSpace(request.Phone) ? string.Empty : request.Phone.Trim(),
-                Zalo = string.IsNullOrWhiteSpace(request.Zalo) ? null : request.Zalo.Trim(),
-                Email = string.IsNullOrWhiteSpace(request.Email) ? null : request.Email.Trim(),
+                FullName = participantFullName,
+                Phone = participantPhone,
+                Zalo = participantZalo,
+                Email = participantEmail,
                 Note = string.IsNullOrWhiteSpace(request.Note) ? null : request.Note.Trim(),
                 IsCreator = false,
                 IsGuestAccount = isGuestAccount,
@@ -235,6 +245,10 @@ public class GroupBuyingRequestService : IGroupBuyingRequestService
             // Đã từng hủy tham gia → tái kích hoạt bản ghi cũ (tránh phá unique index)
             participant.Status = GroupBuyingParticipantStatus.Joined;
             participant.UpdatedAt = DateTime.UtcNow;
+            if (string.IsNullOrWhiteSpace(participant.FullName)) participant.FullName = participantFullName;
+            if (string.IsNullOrWhiteSpace(participant.Phone)) participant.Phone = participantPhone;
+            if (string.IsNullOrWhiteSpace(participant.Zalo)) participant.Zalo = participantZalo;
+            if (string.IsNullOrWhiteSpace(participant.Email)) participant.Email = participantEmail;
             if (!string.IsNullOrWhiteSpace(request.Note)) participant.Note = request.Note.Trim();
             _participantRepository.Update(participant);
         }
