@@ -246,6 +246,30 @@
 	<data name="NewPasswordSameAsCurrent" xml:space="preserve">
     <value>New password must be different from the current password</value>
   </data>
+	<data name="BusinessGroup_TopicRequired" xml:space="preserve">
+    <value>Please enter the club topic</value>
+  </data>
+	<data name="BusinessGroup_TopicMinLength" xml:space="preserve">
+    <value>Topic must be at least 3 characters</value>
+  </data>
+	<data name="BusinessGroup_TopicMaxLength" xml:space="preserve">
+    <value>Topic must not exceed 200 characters</value>
+  </data>
+	<data name="BusinessGroup_ApprovalStatusInvalidMessage" xml:space="preserve">
+    <value>Status accepts only Approved or Rejected</value>
+  </data>
+	<data name="BusinessGroup_NotCommunity" xml:space="preserve">
+    <value>This group is not a user-created club</value>
+  </data>
+	<data name="BusinessGroup_CommunityListRetrieved" xml:space="preserve">
+    <value>Clubs retrieved successfully</value>
+  </data>
+	<data name="BusinessGroup_CommunityCreated" xml:space="preserve">
+    <value>Club request submitted, please wait for admin approval</value>
+  </data>
+	<data name="BusinessGroup_CommunityApproved" xml:space="preserve">
+    <value>Club approval status updated successfully</value>
+  </data>
 	<data name="BusinessGroup_NotFound" xml:space="preserve">
     <value>Group not found</value>
   </data>
@@ -1119,5 +1143,8 @@
   </data>
   <data name="GroupBuyingRequest_ProductNameMaxLength">
     <value>Product name must not exceed 255 characters</value>
+  </data>
+  <data name="BusinessGroup_ForwardedGroupsRetrieved" xml:space="preserve">
+    <value>Forwarded groups retrieved successfully</value>
   </data>
 </root>

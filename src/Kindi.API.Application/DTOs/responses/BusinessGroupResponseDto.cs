@@ -16,6 +16,20 @@ public class BusinessGroupResponseDto : IMapFrom<BusinessGroup>
     public Guid? BusinessFieldId { get; set; }
     public string? BusinessFieldName { get; set; }
 
+    /// <summary>Nhóm ngành (Industry) hay Hội nhóm (Community).</summary>
+    public BusinessGroupType Type { get; set; }
+
+    /// <summary>Chủ đề của hội nhóm (Community).</summary>
+    public string? Topic { get; set; }
+
+    public GroupApprovalStatus ApprovalStatus { get; set; }
+    public string? RejectedReason { get; set; }
+
+    /// <summary>Người đang xem có phải người tạo hội nhóm (chủ hội) hay không.</summary>
+    public bool IsOwner { get; set; }
+
+    public Guid? CreatedByUserId { get; set; }
+
     public string? CoverImageUrl { get; set; }
     public bool RequiresApproval { get; set; }
     public bool IsActive { get; set; }
