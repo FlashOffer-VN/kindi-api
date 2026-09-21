@@ -59,6 +59,17 @@ public class PartnersController : ApiControllerBase
         return Ok(result, _localizer["PartnerRegisterSuccess"]);
     }
 
+    /// <summary>
+    /// Danh sách nhà cung cấp công khai (trang Nguồn cung): đối tác doanh nghiệp đã đăng ký và được duyệt.
+    /// </summary>
+    [HttpGet("public")]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetPublicList([FromQuery] PublicPartnerQueryDto query)
+    {
+        var result = await _partnerService.GetPublicPagedAsync(query);
+        return OkPaged(result, _localizer["Success"]);
+    }
+
     [HttpGet("check-referral/{code}")]
     [AllowAnonymous]
     public async Task<IActionResult> CheckReferralCode([FromRoute] string code)
