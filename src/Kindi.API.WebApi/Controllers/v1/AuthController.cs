@@ -105,6 +105,31 @@ public class AuthController : ApiControllerBase
 	}
 
 	/// <summary>
+	/// Đổi tên đăng nhập + mật khẩu (bắt buộc ở lần đăng nhập đầu với tài khoản tạo từ form công khai).
+	/// Trả về token mới để client giữ nguyên trạng thái đăng nhập.
+	/// </summary>
+	[HttpPost("change-credentials")]
+	[Authorize]
+	public async Task<IActionResult> ChangeCredentials([FromBody] ChangeCredentialsRequest request)
+	{
+		var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+		if (string.IsNullOrEmpty(userId))
+		{
+			return Unauthorized(_localizer["InvalidUser"],
+				new List<string> { _localizer["UserNotAuthenticated"] });
+		}
+
+		var result = await _authService.ChangeCredentialsAsync(Guid.Parse(userId), request);
+		if (result == null)
+		{
+			return BadRequest(_localizer["ChangeCredentialsFailed"],
+				new List<string> { _localizer["ChangeCredentialsErrorMessage"] });
+		}
+
+		return Ok(result, _localizer["ChangeCredentialsSuccess"]);
+	}
+
+	/// <summary>
 	/// Quên mật khẩu - gửi email reset
 	/// </summary>
 	[HttpPost("forgot-password")]

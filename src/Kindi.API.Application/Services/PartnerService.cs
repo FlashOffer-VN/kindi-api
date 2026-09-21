@@ -67,14 +67,29 @@ public class PartnerService : IPartnerService
 
         // 2. Lấy hoặc tạo User
         var userId = _currentUserService.UserId;
-        if (string.IsNullOrEmpty(userId))
+        var isPublicRegistration = string.IsNullOrEmpty(userId);
+        var isNewAccount = false;
+        string? accountUsername = null;
+
+        if (isPublicRegistration)
         {
-            var userGuid = await _userService.GetOrCreateUserAsync(
+            // Đăng ký công khai: tạo tài khoản đăng nhập được ngay (username user<sđt>, mật khẩu = SĐT)
+            // thay vì mật khẩu ngẫu nhiên như trước — để người đăng ký biết thông tin đăng nhập.
+            var existingUser = await _userService.FindByPhoneOrEmailAsync(request.Phone, request.Email);
+            isNewAccount = existingUser == null;
+
+            var userGuid = await _userService.GetOrCreateUserWithPhonePasswordAsync(
                 request.FullName,
                 request.Phone,
                 request.Email
             );
             userId = userGuid.ToString();
+
+            if (isNewAccount)
+            {
+                var createdUser = await _userService.FindByPhoneOrEmailAsync(request.Phone, request.Email);
+                accountUsername = createdUser?.Username;
+            }
         }
 
         // 3. Map request -> Partner entity
@@ -119,7 +134,20 @@ public class PartnerService : IPartnerService
         await _partnerRepo.SaveChangesAsync();
 
         // 8. Return response
-        return _mapper.Map<PartnerRegisterResponse>(partner);
+        var response = _mapper.Map<PartnerRegisterResponse>(partner);
+
+        if (isPublicRegistration)
+        {
+            response.Account = new AccountCredentialsDto
+            {
+                IsNewAccount = isNewAccount,
+                AccountAlreadyExisted = !isNewAccount,
+                Username = accountUsername,
+                PasswordIsPhone = isNewAccount
+            };
+        }
+
+        return response;
     }
 
     private string GeneratePartnerCode()

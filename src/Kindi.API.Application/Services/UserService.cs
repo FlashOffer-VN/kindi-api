@@ -110,7 +110,9 @@ public class UserService : IUserService
             Username = GenerateUniqueUsername(phone),
             PasswordHash = HashPassword(phone), // Password = số điện thoại
             Role = UserRole.Customer,
-            IsActive = true
+            IsActive = true,
+            // Tài khoản sinh tự động từ form công khai: bắt buộc đổi tên đăng nhập + mật khẩu ở lần đăng nhập đầu
+            MustChangeCredentials = true
         };
 
         await _userRepo.AddAsync(user);
@@ -118,6 +120,22 @@ public class UserService : IUserService
         await _authAuditService.LogAsync(user.Id, user.Username, AuditAction.Register, true,
             $"Tạo tài khoản mới (SĐT: {phone})");
         return user.Id;
+    }
+
+    public async Task<User?> FindByIdAsync(Guid userId)
+        => await _userRepo.GetFirstAsync(u => u.Id == userId && !u.IsDeleted);
+
+    public async Task<User?> FindByPhoneOrEmailAsync(string? phone, string? email)
+    {
+        var normalizedPhone = string.IsNullOrWhiteSpace(phone) ? null : phone.Trim();
+        var normalizedEmail = string.IsNullOrWhiteSpace(email) ? null : email.Trim();
+
+        if (normalizedPhone == null && normalizedEmail == null)
+            return null;
+
+        return await _userRepo.GetFirstAsync(u =>
+            (normalizedPhone != null && u.Phone == normalizedPhone) ||
+            (normalizedEmail != null && u.Email == normalizedEmail));
     }
 
     public async Task<User?> GetCurrentUserAsync()

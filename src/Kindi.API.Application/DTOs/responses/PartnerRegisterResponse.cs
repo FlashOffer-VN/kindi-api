@@ -13,6 +13,12 @@ public class PartnerRegisterResponse : IMapFrom<Partner>
     public PartnerStatus Status { get; set; }
     public DateTime RegisteredAt { get; set; }
 
+    /// <summary>
+    /// Thông tin tài khoản vừa tạo/dùng lại khi đăng ký công khai,
+    /// để client hiển thị "tài khoản đăng nhập = SĐT vừa đăng ký".
+    /// </summary>
+    public AccountCredentialsDto? Account { get; set; }
+
     public void Mapping(Profile profile)
     {
         profile.CreateMap<Partner, PartnerRegisterResponse>()

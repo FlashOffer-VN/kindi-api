@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using Kindi.API.Application.Common.Behaviors;
 using Kindi.API.Application.Common.Configurations;
 using Kindi.API.Application.Common.Interfaces;
@@ -58,6 +58,7 @@ public static class DependencyInjection
         services.AddScoped<ICollaboratorService, CollaboratorService>();
         services.AddScoped<ISocialInteractionService, SocialInteractionService>();
         services.AddScoped<IBusinessFieldService, BusinessFieldService>();
+        services.AddScoped<IBusinessGroupService, BusinessGroupService>();
         services.AddScoped<IAuthAuditService, AuthAuditService>();
         services.AddScoped<IAuditLogQueryService, AuditLogQueryService>();
         services.AddScoped<IQueryService, QueryService>();
