@@ -65,19 +65,17 @@ public class GroupBuyingRequestService : IGroupBuyingRequestService
         var userId = _currentUserService.UserId;
         var isGuestAccount = false;
 
-        // 2. Nếu chưa đăng nhập, tạo User ngầm
+        // 2. Nếu chưa đăng nhập: dùng lại tài khoản đã có theo SĐT/email, chỉ tạo mới khi chưa có.
+        //    KHÔNG cập nhật FullName/Email của tài khoản đã tồn tại — đây là endpoint công khai,
+        //    cho phép ghi đè hồ sơ người khác bằng cách nhập SĐT của họ.
         if (string.IsNullOrEmpty(userId))
         {
             var existingUser = await FindUserByContactAsync(request.Phone, request.Email);
             isGuestAccount = existingUser == null;
 
-            var userGuid = await _userService.GetOrCreateUserAsync(
-                request.FullName,
-                request.Phone,
-                request.Email
-            );
-
-            userId = userGuid.ToString();
+            userId = existingUser != null
+                ? existingUser.Id.ToString()
+                : (await _userService.GetOrCreateUserAsync(request.FullName, request.Phone, request.Email)).ToString();
         }
 
         // 3. Map và gán UserId
@@ -188,12 +186,20 @@ public class GroupBuyingRequestService : IGroupBuyingRequestService
             var existingUser = await FindUserByContactAsync(phone, email);
             isNewAccount = existingUser == null;
             accountAlreadyExisted = !isNewAccount;
-
-            // Tài khoản tạo tự động: username = user<sđt>, mật khẩu khởi tạo = sđt
-            userId = await _userService.GetOrCreateUserWithPhonePasswordAsync(
-                request.FullName.Trim(), phone, email);
-
             isGuestAccount = isNewAccount;
+
+            if (existingUser != null)
+            {
+                // Đã có tài khoản: dùng lại, KHÔNG ghi đè FullName/Email (endpoint công khai,
+                // tránh việc nhập SĐT người khác là sửa được hồ sơ của họ).
+                userId = existingUser.Id;
+            }
+            else
+            {
+                // Tài khoản tạo tự động: username = user<sđt>, mật khẩu khởi tạo = sđt
+                userId = await _userService.GetOrCreateUserWithPhonePasswordAsync(
+                    request.FullName.Trim(), phone, email);
+            }
 
             // Mọi người tham gia mua chung đều được lưu ở bảng Collaborators (trạng thái chờ duyệt)
             await EnsureCollaboratorAsync(userId, request.FullName.Trim(), phone, request.Zalo?.Trim(), email);

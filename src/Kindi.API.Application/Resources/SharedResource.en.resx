@@ -940,4 +940,7 @@
   <data name="GroupBuyingRequest_NoteMaxLength">
     <value>Note must not exceed 1000 characters</value>
   </data>
+  <data name="GroupBuyingRequest_ProductNameMaxLength">
+    <value>Product name must not exceed 255 characters</value>
+  </data>
 </root>

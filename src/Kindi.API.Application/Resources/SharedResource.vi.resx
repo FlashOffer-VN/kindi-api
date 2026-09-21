@@ -878,4 +878,7 @@
   <data name="GroupBuyingRequest_NoteMaxLength">
     <value>Ghi chú tối đa 1000 ký tự</value>
   </data>
+  <data name="GroupBuyingRequest_ProductNameMaxLength">
+    <value>Tên sản phẩm tối đa 255 ký tự</value>
+  </data>
 </root>
