@@ -9,12 +9,24 @@ namespace Kindi.API.Domain.Entities;
 public class BusinessGroup : BaseEntity
 {
 	public string? BusinessGroupCode { get; set; }
+
+	/// <summary>Nhóm ngành (admin gom theo lĩnh vực) hay Hội nhóm (người dùng tự tạo theo chủ đề).</summary>
+	public BusinessGroupType Type { get; set; } = BusinessGroupType.Industry;
 	public string Name { get; set; } = string.Empty;
 	public string? Description { get; set; }
 
 	/// <summary>Lĩnh vực kinh doanh của nhóm (tái sử dụng BusinessField đang quản lý tập trung).</summary>
 	public Guid? BusinessFieldId { get; set; }
 	public string? BusinessFieldName { get; set; }
+
+	/// <summary>Chủ đề của hội nhóm (chỉ dùng cho Type = Community).</summary>
+	public string? Topic { get; set; }
+
+	/// <summary>Trạng thái duyệt mở hội (Community). Nhóm ngành luôn Approved.</summary>
+	public GroupApprovalStatus ApprovalStatus { get; set; } = GroupApprovalStatus.Approved;
+
+	/// <summary>Lý do admin từ chối mở hội.</summary>
+	public string? RejectedReason { get; set; }
 
 	public string? CoverImageUrl { get; set; }
 

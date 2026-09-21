@@ -10,6 +10,11 @@ public interface IBusinessGroupService
     Task<PagedList<BusinessGroupResponseDto>> GetPublicPagedAsync(BusinessGroupQueryDto query);
     Task<BusinessGroupDetailDto> GetPublicByIdAsync(Guid id);
     Task<JoinBusinessGroupResponseDto> JoinAsync(Guid id, JoinBusinessGroupRequest request);
+
+    // ===== Hội nhóm (người dùng tự tạo) =====
+    Task<PagedList<BusinessGroupResponseDto>> GetCommunityPagedAsync(BusinessGroupQueryDto query);
+    Task<BusinessGroupResponseDto> CreateCommunityAsync(CreateCommunityGroupDto request);
+    Task<BusinessGroupResponseDto> UpdateCommunityApprovalAsync(Guid id, UpdateCommunityGroupApprovalDto request);
     Task LeaveAsync(Guid id);
 
     Task<PagedList<BusinessGroupPostResponseDto>> GetPostsAsync(Guid groupId, GroupPostQueryDto query);

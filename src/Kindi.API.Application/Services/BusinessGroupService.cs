@@ -74,7 +74,8 @@ public class BusinessGroupService : IBusinessGroupService
         var search = NormalizeFilter(query.Search)?.ToLowerInvariant();
 
         var q = _queryService.GetAllNoTracking<BusinessGroup>()
-            .Where(x => x.IsActive)
+            // Trang Nhóm ngành chỉ hiển thị nhóm ngành (hội nhóm có danh sách riêng)
+            .Where(x => x.Type == BusinessGroupType.Industry && x.IsActive)
             .WhereIf(query.BusinessFieldId.HasValue, x => x.BusinessFieldId == query.BusinessFieldId!.Value)
             .WhereIf(!string.IsNullOrEmpty(search), x =>
                 x.Name.ToLower().Contains(search!) ||
@@ -108,9 +109,19 @@ public class BusinessGroupService : IBusinessGroupService
 
         var detail = _mapper.Map<BusinessGroupDetailDto>(group);
         var membership = me != null ? await GetMembershipAsync(id, me.Value) : null;
+        var isOwner = me != null && group.CreatedByUserId == me.Value;
+
+        // Hội nhóm chưa được admin duyệt: chỉ admin, chủ hội và thành viên xem được
+        if (group.Type == BusinessGroupType.Community
+            && group.ApprovalStatus != GroupApprovalStatus.Approved
+            && !isAdmin && !isOwner && membership == null)
+        {
+            throw new NotFoundException(_localizer["BusinessGroup_NotFound"]);
+        }
 
         detail.MyMemberStatus = membership?.Status;
         detail.IsMember = membership?.Status == GroupMemberStatus.Active;
+        detail.IsOwner = isOwner;
         detail.CanViewPosts = isAdmin || detail.IsMember;
         detail.IsAdmin = isAdmin;
 
@@ -475,6 +486,120 @@ public class BusinessGroupService : IBusinessGroupService
     }
 
     // =====================================================================
+    // HỘI NHÓM (NGƯỜI DÙNG TỰ TẠO THEO CHỦ ĐỀ)
+    // =====================================================================
+
+    /// <summary>
+    /// Danh sách hội nhóm: hội đã được admin duyệt (mọi người xem được để xin vào)
+    /// + hội của chính mình ở mọi trạng thái (kèm nhãn chờ duyệt / bị từ chối).
+    /// </summary>
+    public async Task<PagedList<BusinessGroupResponseDto>> GetCommunityPagedAsync(BusinessGroupQueryDto query)
+    {
+        var me = GetCurrentUserId();
+        var search = NormalizeFilter(query.Search)?.ToLowerInvariant();
+
+        var q = _queryService.GetAllNoTracking<BusinessGroup>()
+            .Where(x => x.Type == BusinessGroupType.Community)
+            .WhereIf(!string.IsNullOrEmpty(search), x =>
+                x.Name.ToLower().Contains(search!) ||
+                (x.Topic != null && x.Topic.ToLower().Contains(search!)) ||
+                (x.Description != null && x.Description.ToLower().Contains(search!)));
+
+        if (me != null)
+        {
+            q = query.MineOnly
+                // Chỉ hội của tôi (chủ hội hoặc thành viên), mọi trạng thái duyệt
+                ? q.Where(x => x.CreatedByUserId == me.Value || x.Members.Any(m => m.UserId == me.Value))
+                // Mặc định: hội đã duyệt + hội của tôi
+                : q.Where(x => x.ApprovalStatus == GroupApprovalStatus.Approved
+                               || x.CreatedByUserId == me.Value
+                               || x.Members.Any(m => m.UserId == me.Value));
+        }
+        else
+        {
+            q = q.Where(x => x.ApprovalStatus == GroupApprovalStatus.Approved);
+        }
+
+        var paged = await q.ToPagedListAsync(query.Page, query.PageSize, null, null, defaultSortBy: "CreatedAt");
+        var result = _mapper.MapPagedList<BusinessGroup, BusinessGroupResponseDto>(paged);
+
+        await ApplyViewerStateAsync(result.Items, me, includePendingCounts: false);
+        return result;
+    }
+
+    /// <summary>
+    /// Người dùng tạo hội nhóm theo chủ đề: hội ở trạng thái chờ admin duyệt,
+    /// người tạo trở thành chủ hội (quản trị hội) và tự duyệt thành viên.
+    /// </summary>
+    public async Task<BusinessGroupResponseDto> CreateCommunityAsync(CreateCommunityGroupDto request)
+    {
+        var me = GetCurrentUserId() ?? throw new UnauthorizedException(_localizer["UserNotAuthenticated"]);
+
+        var group = new BusinessGroup
+        {
+            BusinessGroupCode = CodeGenerator.Generate("CLB"),
+            Name = request.Name.Trim(),
+            Topic = request.Topic.Trim(),
+            Description = request.Description?.Trim(),
+            Type = BusinessGroupType.Community,
+            ApprovalStatus = GroupApprovalStatus.Pending,
+            RequiresApproval = true,
+            IsActive = true,
+            CreatedByUserId = me
+        };
+
+        await _repository.AddAsync(group);
+        await _repository.SaveChangesAsync();
+
+        var account = await _userService.FindByIdAsync(me);
+        await _memberRepository.AddAsync(new BusinessGroupMember
+        {
+            BusinessGroupId = group.Id,
+            UserId = me,
+            FullName = account?.FullName ?? string.Empty,
+            Phone = account?.Phone ?? string.Empty,
+            Email = account?.Email,
+            Role = GroupMemberRole.GroupAdmin,
+            Status = GroupMemberStatus.Active,
+            JoinedAt = DateTime.UtcNow
+        });
+        await _memberRepository.SaveChangesAsync();
+
+        group.MembersCount = 1;
+        _repository.Update(group);
+        await _repository.SaveChangesAsync();
+
+        var dto = _mapper.Map<BusinessGroupResponseDto>(group);
+        dto.IsMember = true;
+        dto.IsOwner = true;
+        dto.MyMemberStatus = GroupMemberStatus.Active;
+        return dto;
+    }
+
+    /// <summary>Admin duyệt / từ chối mở hội nhóm.</summary>
+    public async Task<BusinessGroupResponseDto> UpdateCommunityApprovalAsync(Guid id, UpdateCommunityGroupApprovalDto request)
+    {
+        var group = await _repository.GetFirstAsync(g => g.Id == id && !g.IsDeleted)
+            ?? throw new NotFoundException(_localizer["BusinessGroup_NotFound"]);
+
+        if (group.Type != BusinessGroupType.Community)
+            throw new BusinessException(_localizer["BusinessGroup_NotCommunity"]);
+
+        group.ApprovalStatus = request.ApprovalStatus;
+        group.RejectedReason = request.ApprovalStatus == GroupApprovalStatus.Rejected
+            ? request.RejectedReason?.Trim()
+            : null;
+        group.IsActive = request.ApprovalStatus == GroupApprovalStatus.Approved;
+
+        _repository.Update(group);
+        await _repository.SaveChangesAsync();
+
+        var dto = _mapper.Map<BusinessGroupResponseDto>(group);
+        dto.IsOwner = group.CreatedByUserId == GetCurrentUserId();
+        return dto;
+    }
+
+    // =====================================================================
     // QUẢN TRỊ
     // =====================================================================
 
@@ -483,6 +608,8 @@ public class BusinessGroupService : IBusinessGroupService
         var search = NormalizeFilter(query.Search)?.ToLowerInvariant();
 
         var q = _queryService.GetAllNoTracking<BusinessGroup>()
+            .WhereIf(query.Type.HasValue, x => x.Type == query.Type!.Value)
+            .WhereIf(query.ApprovalStatus.HasValue, x => x.ApprovalStatus == query.ApprovalStatus!.Value)
             .WhereIf(query.IsActive.HasValue, x => x.IsActive == query.IsActive!.Value)
             .WhereIf(query.BusinessFieldId.HasValue, x => x.BusinessFieldId == query.BusinessFieldId!.Value)
             .WhereIf(!string.IsNullOrEmpty(search), x =>
@@ -585,8 +712,11 @@ public class BusinessGroupService : IBusinessGroupService
 
     public async Task<PagedList<BusinessGroupMemberResponseDto>> GetMembersAsync(Guid id, BusinessGroupMemberQueryDto query)
     {
-        _ = await _repository.GetFirstAsync(g => g.Id == id && !g.IsDeleted)
+        var group = await _repository.GetFirstAsync(g => g.Id == id && !g.IsDeleted)
             ?? throw new NotFoundException(_localizer["BusinessGroup_NotFound"]);
+
+        // Nhóm ngành: admin; Hội nhóm: admin hoặc chủ hội
+        EnsureCanManageMembers(group);
 
         var search = NormalizeFilter(query.Search)?.ToLowerInvariant();
 
@@ -606,6 +736,11 @@ public class BusinessGroupService : IBusinessGroupService
 
     public async Task<BusinessGroupMemberResponseDto> UpdateMemberStatusAsync(Guid id, Guid memberId, UpdateGroupMemberStatusDto request)
     {
+        var group = await _repository.GetFirstAsync(g => g.Id == id && !g.IsDeleted)
+            ?? throw new NotFoundException(_localizer["BusinessGroup_NotFound"]);
+
+        EnsureCanManageMembers(group);
+
         var member = await _memberRepository.GetFirstAsync(m =>
             m.Id == memberId && m.BusinessGroupId == id && !m.IsDeleted)
             ?? throw new NotFoundException(_localizer["BusinessGroup_MemberNotFound"]);
@@ -626,8 +761,7 @@ public class BusinessGroupService : IBusinessGroupService
         await _memberRepository.SaveChangesAsync();
 
         // Đồng bộ lại số thành viên đang hoạt động của nhóm
-        var group = await _repository.GetByIdAsync(id);
-        if (group != null && wasActive != (request.Status == GroupMemberStatus.Active))
+        if (wasActive != (request.Status == GroupMemberStatus.Active))
         {
             group.MembersCount = await _queryService.GetAllNoTracking<BusinessGroupMember>()
                 .CountAsync(x => x.BusinessGroupId == id && x.Status == GroupMemberStatus.Active);
@@ -640,6 +774,11 @@ public class BusinessGroupService : IBusinessGroupService
 
     public async Task RemoveMemberAsync(Guid id, Guid memberId)
     {
+        var group = await _repository.GetFirstAsync(g => g.Id == id && !g.IsDeleted)
+            ?? throw new NotFoundException(_localizer["BusinessGroup_NotFound"]);
+
+        EnsureCanManageMembers(group);
+
         var member = await _memberRepository.GetFirstAsync(m =>
             m.Id == memberId && m.BusinessGroupId == id && !m.IsDeleted)
             ?? throw new NotFoundException(_localizer["BusinessGroup_MemberNotFound"]);
@@ -650,16 +789,13 @@ public class BusinessGroupService : IBusinessGroupService
         _memberRepository.Update(member);
         await _memberRepository.SaveChangesAsync();
 
+        // Đồng bộ số thành viên đang hoạt động (dùng 'group' đã lấy ở đầu hàm)
         if (wasActive)
         {
-            var group = await _repository.GetByIdAsync(id);
-            if (group != null)
-            {
-                group.MembersCount = await _queryService.GetAllNoTracking<BusinessGroupMember>()
-                    .CountAsync(x => x.BusinessGroupId == id && x.Status == GroupMemberStatus.Active);
-                _repository.Update(group);
-                await _repository.SaveChangesAsync();
-            }
+            group.MembersCount = await _queryService.GetAllNoTracking<BusinessGroupMember>()
+                .CountAsync(x => x.BusinessGroupId == id && x.Status == GroupMemberStatus.Active);
+            _repository.Update(group);
+            await _repository.SaveChangesAsync();
         }
     }
 
@@ -699,6 +835,19 @@ public class BusinessGroupService : IBusinessGroupService
     private async Task<BusinessGroupPost> GetPostOrThrowAsync(Guid postId)
         => await _postRepository.GetFirstAsync(p => p.Id == postId && !p.IsDeleted)
             ?? throw new NotFoundException(_localizer["BusinessGroup_PostNotFound"]);
+
+    /// <summary>
+    /// Quản lý thành viên: admin, hoặc chủ hội nhóm (người tạo hội) tự duyệt thành viên.
+    /// </summary>
+    private void EnsureCanManageMembers(BusinessGroup group)
+    {
+        if (_currentUserService.IsInRole(AdminRole)) return;
+
+        var me = GetCurrentUserId();
+        if (me != null && group.CreatedByUserId == me.Value) return;
+
+        throw new ForbiddenException(_localizer["BusinessGroup_AdminOnly"]);
+    }
 
     /// <summary>
     /// Chỉ thành viên đã được duyệt (hoặc admin) mới đọc/đăng bài trong nhóm.
@@ -743,6 +892,7 @@ public class BusinessGroupService : IBusinessGroupService
                 var membership = memberships.FirstOrDefault(m => m.BusinessGroupId == item.Id);
                 item.MyMemberStatus = membership?.Status;
                 item.IsMember = membership?.Status == GroupMemberStatus.Active;
+                item.IsOwner = item.CreatedByUserId == me.Value;
             }
         }
 
