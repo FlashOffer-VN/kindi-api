@@ -84,6 +84,7 @@ public class AuthService : IAuthService
         {
             Token = token,
             ExpiresAt = DateTime.UtcNow.AddMinutes(_jwtSettings.ExpiryMinutes),
+            Id = user.Id,
             Username = user.Username,
             FullName = user.FullName,
             Role = user.Role.ToString(),
@@ -149,6 +150,7 @@ public class AuthService : IAuthService
 		{
 			Token = newToken,
 			ExpiresAt = DateTime.UtcNow.AddMinutes(_jwtSettings.ExpiryMinutes),
+			Id = user?.Id ?? Guid.Empty,
 			Username = username,
 			FullName = user?.FullName ?? string.Empty,
 			Role = user?.Role.ToString() ?? string.Empty,
