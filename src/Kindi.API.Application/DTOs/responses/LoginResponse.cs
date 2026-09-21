@@ -5,4 +5,7 @@
 	public string Username { get; set; } = string.Empty;
 	public string FullName { get; set; } = string.Empty;
 	public string Role { get; set; } = string.Empty;
+
+	/// <summary>True khi tài khoản phải đổi tên đăng nhập/mật khẩu trước khi dùng tiếp.</summary>
+	public bool MustChangeCredentials { get; set; }
 }

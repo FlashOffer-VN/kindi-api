@@ -110,7 +110,9 @@ public class UserService : IUserService
             Username = GenerateUniqueUsername(phone),
             PasswordHash = HashPassword(phone), // Password = số điện thoại
             Role = UserRole.Customer,
-            IsActive = true
+            IsActive = true,
+            // Tài khoản sinh tự động từ form công khai: bắt buộc đổi tên đăng nhập + mật khẩu ở lần đăng nhập đầu
+            MustChangeCredentials = true
         };
 
         await _userRepo.AddAsync(user);

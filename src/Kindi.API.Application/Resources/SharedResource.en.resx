@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
 	<!-- Common -->
 	<data name="CreateSuccess" xml:space="preserve">
@@ -224,6 +224,27 @@
   </data>
 	<data name="ChangePasswordSuccess" xml:space="preserve">
     <value>Password changed successfully</value>
+  </data>
+	<data name="ChangeCredentialsSuccess" xml:space="preserve">
+    <value>Username and password changed successfully</value>
+  </data>
+	<data name="ChangeCredentialsFailed" xml:space="preserve">
+    <value>Changing username and password failed</value>
+  </data>
+	<data name="ChangeCredentialsErrorMessage" xml:space="preserve">
+    <value>Please check the current password and the new username</value>
+  </data>
+	<data name="CurrentPasswordIncorrect" xml:space="preserve">
+    <value>Current password is incorrect</value>
+  </data>
+	<data name="UsernameAlreadyExists" xml:space="preserve">
+    <value>This username is already taken, please choose another one</value>
+  </data>
+	<data name="UsernameInvalid" xml:space="preserve">
+    <value>Username may only contain letters, numbers and . _ -</value>
+  </data>
+	<data name="NewPasswordSameAsCurrent" xml:space="preserve">
+    <value>New password must be different from the current password</value>
   </data>
 	<data name="ChangePasswordFailed" xml:space="preserve">
     <value>Password change failed</value>

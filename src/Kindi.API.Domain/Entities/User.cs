@@ -13,6 +13,12 @@ public class User : BaseEntity
 	public string Email { get; set; } = string.Empty;
 	public string? Phone { get; set; }
 	public bool IsActive { get; set; } = true;
+
+	/// <summary>
+	/// Bắt buộc đổi tên đăng nhập + mật khẩu ngay lần đăng nhập đầu tiên.
+	/// Đặt true cho tài khoản tạo tự động từ form công khai (username user&lt;sđt&gt;, mật khẩu = SĐT).
+	/// </summary>
+	public bool MustChangeCredentials { get; set; } = false;
 	public DateTime? LastLoginAt { get; set; }
 	public UserRole Role { get; set; } = UserRole.Customer;
 }

@@ -11,5 +11,6 @@ public class UserInfoResponse
 	public string? Phone { get; set; }
 	public string Role { get; set; } = string.Empty;
 	public bool IsActive { get; set; }
+	public bool MustChangeCredentials { get; set; }
 	public DateTime? LastLoginAt { get; set; }
 }

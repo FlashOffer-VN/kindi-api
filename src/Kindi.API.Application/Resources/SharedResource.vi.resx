@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
 	<!-- Common -->
 	<data name="CreateSuccess" xml:space="preserve">
@@ -218,6 +218,27 @@
   </data>
 	<data name="ChangePasswordSuccess" xml:space="preserve">
     <value>Đổi mật khẩu thành công</value>
+  </data>
+	<data name="ChangeCredentialsSuccess" xml:space="preserve">
+    <value>Đổi tên đăng nhập và mật khẩu thành công</value>
+  </data>
+	<data name="ChangeCredentialsFailed" xml:space="preserve">
+    <value>Đổi tên đăng nhập và mật khẩu thất bại</value>
+  </data>
+	<data name="ChangeCredentialsErrorMessage" xml:space="preserve">
+    <value>Vui lòng kiểm tra lại mật khẩu hiện tại và tên đăng nhập mới</value>
+  </data>
+	<data name="CurrentPasswordIncorrect" xml:space="preserve">
+    <value>Mật khẩu hiện tại không đúng</value>
+  </data>
+	<data name="UsernameAlreadyExists" xml:space="preserve">
+    <value>Tên đăng nhập này đã được sử dụng, vui lòng chọn tên khác</value>
+  </data>
+	<data name="UsernameInvalid" xml:space="preserve">
+    <value>Tên đăng nhập chỉ gồm chữ, số và các ký tự . _ -</value>
+  </data>
+	<data name="NewPasswordSameAsCurrent" xml:space="preserve">
+    <value>Mật khẩu mới phải khác mật khẩu hiện tại</value>
   </data>
 	<data name="ChangePasswordFailed" xml:space="preserve">
     <value>Đổi mật khẩu thất bại</value>

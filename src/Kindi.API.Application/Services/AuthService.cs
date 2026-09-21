@@ -1,13 +1,17 @@
-using Kindi.API.Application.Common.Configurations;
+﻿using Kindi.API.Application.Common.Configurations;
+using Kindi.API.Application.Common.Exceptions;
 using Kindi.API.Application.Common.Interfaces;
+using Kindi.API.Application.Resources;
 using Kindi.API.Application.DTOs.requests;
 using Kindi.API.Application.DTOs.responses;
 using Kindi.API.Domain.Entities;
 using Kindi.API.Domain.Enums;
 using Kindi.API.Domain.Interfaces;
 using Kindi.API.Shared.Common.Helpers;
+using Kindi.API.Shared.Exceptions;
 using Kindi.API.Shared.Common.Interfaces;
 using Kindi.API.Shared.Constants;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;
@@ -21,19 +25,22 @@ public class AuthService : IAuthService
 	private readonly JwtSettings _jwtSettings;
 	private readonly ILogger<AuthService> _logger;
 	private readonly IAuthAuditService _authAuditService;
+	private readonly IStringLocalizer<SharedResource> _localizer;
 
 	public AuthService(
 		IRepository<User> userRepository,
 		IJwtService jwtService,
 		IOptions<JwtSettings> jwtSettings,
 		ILogger<AuthService> logger,
-		IAuthAuditService authAuditService)
+		IAuthAuditService authAuditService,
+		IStringLocalizer<SharedResource> localizer)
 	{
 		_userRepository = userRepository;
 		_jwtService = jwtService;
 		_jwtSettings = jwtSettings.Value;
 		_logger = logger;
 		_authAuditService = authAuditService;
+		_localizer = localizer;
 	}
 
     public async Task<LoginResponse?> LoginAsync(LoginRequest request)
@@ -79,7 +86,8 @@ public class AuthService : IAuthService
             ExpiresAt = DateTime.UtcNow.AddMinutes(_jwtSettings.ExpiryMinutes),
             Username = user.Username,
             FullName = user.FullName,
-            Role = user.Role.ToString()
+            Role = user.Role.ToString(),
+            MustChangeCredentials = user.MustChangeCredentials
         };
     }
 
@@ -143,7 +151,76 @@ public class AuthService : IAuthService
 			ExpiresAt = DateTime.UtcNow.AddMinutes(_jwtSettings.ExpiryMinutes),
 			Username = username,
 			FullName = user?.FullName ?? string.Empty,
-			Role = user?.Role.ToString() ?? string.Empty
+			Role = user?.Role.ToString() ?? string.Empty,
+			MustChangeCredentials = user?.MustChangeCredentials ?? false
+		};
+	}
+
+	/// <summary>
+	/// Đổi tên đăng nhập + mật khẩu. Dùng cho lần đăng nhập đầu tiên của tài khoản tạo tự động
+	/// (bắt buộc đổi) và cho chức năng đổi thông tin đăng nhập ở trang người dùng.
+	/// Trả về token mới vì username là claim trong token.
+	/// </summary>
+	public async Task<LoginResponse?> ChangeCredentialsAsync(Guid userId, ChangeCredentialsRequest request)
+	{
+		if (request.NewPassword != request.ConfirmNewPassword)
+		{
+			throw new BadRequestException(_localizer["Collaborator_PasswordMismatch"]);
+		}
+
+		var users = await _userRepository.FindAsync(u => u.Id == userId && !u.IsDeleted);
+		var user = users.FirstOrDefault();
+
+		if (user == null)
+		{
+			_logger.LogWarning("User not found: {UserId}", userId);
+			await _authAuditService.LogAsync(userId, null, AuditAction.ChangePassword, false,
+				"Không tìm thấy người dùng");
+			throw new NotFoundException(_localizer["UserNotFound"]);
+		}
+
+		if (!PasswordHasher.Verify(request.CurrentPassword, user.PasswordHash ?? string.Empty))
+		{
+			_logger.LogWarning("Invalid current password for user: {UserId}", userId);
+			await _authAuditService.LogAsync(userId, user.Username, AuditAction.ChangePassword, false,
+				"Mật khẩu hiện tại không đúng");
+			throw new BadRequestException(_localizer["CurrentPasswordIncorrect"]);
+		}
+
+		var newUsername = request.NewUsername.Trim();
+
+		// Đăng nhập chấp nhận cả Username / Email / Phone → tên đăng nhập mới không được trùng bất kỳ giá trị nào
+		var taken = await _userRepository.GetFirstAsync(u =>
+			u.Id != userId && !u.IsDeleted &&
+			(u.Username == newUsername || u.Email == newUsername || u.Phone == newUsername));
+
+		if (taken != null)
+		{
+			_logger.LogWarning("Username already taken: {Username}", newUsername);
+			await _authAuditService.LogAsync(userId, user.Username, AuditAction.ChangePassword, false,
+				$"Tên đăng nhập {newUsername} đã được sử dụng");
+			throw new BadRequestException(_localizer["UsernameAlreadyExists"]);
+		}
+
+		var oldUsername = user.Username;
+		user.Username = newUsername;
+		user.PasswordHash = PasswordHasher.Hash(request.NewPassword);
+		user.MustChangeCredentials = false;
+		_userRepository.Update(user);
+		await _userRepository.SaveChangesAsync();
+
+		_logger.LogInformation("Credentials changed for user: {UserId}", userId);
+		await _authAuditService.LogAsync(userId, user.Username, AuditAction.ChangePassword, true,
+			$"Đổi tên đăng nhập ({oldUsername} → {user.Username}) và mật khẩu");
+
+		return new LoginResponse
+		{
+			Token = _jwtService.GenerateToken(user.Id.ToString(), user.Username, GetRoles(user.Role)),
+			ExpiresAt = DateTime.UtcNow.AddMinutes(_jwtSettings.ExpiryMinutes),
+			Username = user.Username,
+			FullName = user.FullName,
+			Role = user.Role.ToString(),
+			MustChangeCredentials = false
 		};
 	}
 
@@ -239,6 +316,7 @@ public class AuthService : IAuthService
 			Phone = user.Phone,
 			Role = user.Role.ToString(),
 			IsActive = user.IsActive,
+			MustChangeCredentials = user.MustChangeCredentials,
 			LastLoginAt = user.LastLoginAt
 		};
 	}

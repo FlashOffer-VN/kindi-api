@@ -1,4 +1,4 @@
-using Kindi.API.Application.DTOs.requests;
+﻿using Kindi.API.Application.DTOs.requests;
 using Kindi.API.Application.DTOs.responses;
 
 namespace Kindi.API.Application.Common.Interfaces;
@@ -9,6 +9,9 @@ public interface IAuthService
 	Task LogoutAsync(string token);
 	Task<LoginResponse?> RefreshTokenAsync(string token);
 	Task<bool> ChangePasswordAsync(Guid userId, ChangePasswordRequest request);
+
+	/// <summary>Đổi tên đăng nhập + mật khẩu, trả token mới (username là claim trong token).</summary>
+	Task<LoginResponse?> ChangeCredentialsAsync(Guid userId, ChangeCredentialsRequest request);
 	Task ForgotPasswordAsync(ForgotPasswordRequest request);
 	Task<bool> ResetPasswordAsync(ResetPasswordRequest request);
 	Task<UserInfoResponse?> GetUserByIdAsync(Guid userId);
