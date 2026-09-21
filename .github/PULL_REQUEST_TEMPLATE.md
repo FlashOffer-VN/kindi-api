@@ -10,7 +10,7 @@ Brief description of the change and why it is needed.
 
 ## Checklist
 - [ ] I ran `dotnet build` and `dotnet test` locally
-- [ ] I updated documentation in `docs/FlashOffer.API.Documentation/` if applicable
+- [ ] I updated documentation in `docs/Kindi.API.Documentation/` if applicable
 - [ ] I updated `Directory.Packages.props` and explained version choices in PR when package changes were made
 - [ ] New validators that need localization follow the DI ordering (AddLocalization before AddControllers().AddFluentValidation())
 - [ ] Integration tests seed data using `Factory.Server.Services.CreateScope()` and deterministic InMemory DB name

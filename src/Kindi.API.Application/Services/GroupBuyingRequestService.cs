@@ -1,0 +1,97 @@
+﻿// src/Kindi.API.Application/Services/GroupBuyingRequestService.cs
+using AutoMapper;
+using Kindi.API.Application.Common.Extensions;
+using Kindi.API.Application.Common.Helpers;
+using Kindi.API.Application.Common.Interfaces;
+using Kindi.API.Application.Common.Mappings;
+using Kindi.API.Application.DTOs.requests;
+using Kindi.API.Application.DTOs.responses;
+using Kindi.API.Domain.Entities;
+using Kindi.API.Domain.Enums;
+using Kindi.API.Domain.Interfaces;
+using Kindi.API.Domain.Models;
+using Kindi.API.Shared.Common.Interfaces;
+
+namespace Kindi.API.Application.Services;
+
+public class GroupBuyingRequestService : IGroupBuyingRequestService
+{
+    private readonly IRepository<GroupBuyingRequest> _repository;
+    private readonly IMapper _mapper;
+    private readonly ICurrentUserService _currentUserService;
+    private readonly IUserService _userService;
+    private readonly IQueryService _queryService;
+
+    public GroupBuyingRequestService(
+        IRepository<GroupBuyingRequest> repository,
+        IMapper mapper,
+        ICurrentUserService currentUserService,
+        IUserService userService,
+        IQueryService queryService)
+    {
+        _repository = repository;
+        _mapper = mapper;
+        _currentUserService = currentUserService;
+        _userService = userService;
+        _queryService = queryService;
+    }
+
+    public async Task<GroupBuyingRequestResponseDto> CreateAsync(CreateGroupBuyingRequestDto request)
+    {
+        // 1. Lấy UserId từ token (nếu có)
+        var userId = _currentUserService.UserId;
+
+        // 2. Nếu chưa đăng nhập, tạo User ngầm
+        if (string.IsNullOrEmpty(userId))
+        {
+            var userGuid = await _userService.GetOrCreateUserAsync(
+                request.FullName,
+                request.Phone,
+                request.Email
+            );
+
+            userId = userGuid.ToString();
+        }
+
+        // 3. Map và gán UserId
+        var entity = _mapper.Map<GroupBuyingRequest>(request);
+        entity.GroupBuyingRequestCode = CodeGenerator.Generate("GBR");
+        entity.UserId = Guid.Parse(userId);
+        entity.CurrentPeopleCount = 1;
+        entity.Status = GroupBuyingStatus.Pending;
+
+        await _repository.AddAsync(entity);
+        await _repository.SaveChangesAsync();
+
+        return _mapper.Map<GroupBuyingRequestResponseDto>(entity);
+    }
+
+    public async Task<PagedList<GroupBuyingRequestResponseDto>> GetPagedAsync(GetGroupBuyingRequestsQueryDto query)
+    {
+        // Admin - lấy tất cả; User - chỉ lấy của mình
+        var userId = _currentUserService.IsInRole("Admin")
+            ? null
+            : _currentUserService.UserId;
+
+        if (!_currentUserService.IsInRole("Admin") && string.IsNullOrEmpty(userId))
+            return new PagedList<GroupBuyingRequestResponseDto>(new List<GroupBuyingRequestResponseDto>(), 0, query.Page, query.PageSize);
+
+        var search = query.Search?.Trim();
+
+        var q = _queryService.GetQueryableNoTracking<GroupBuyingRequest>()
+            .WhereIf(userId != null, x => x.UserId == Guid.Parse(userId!))
+            .WhereIf(!string.IsNullOrEmpty(search), x =>
+                (x.GroupBuyingRequestCode != null && x.GroupBuyingRequestCode.Contains(search!)) ||
+                x.ProductName.Contains(search!) ||
+                x.FullName.Contains(search!) ||
+                x.Phone.Contains(search!) ||
+                (x.Email != null && x.Email.Contains(search!)));
+
+        var result = await q.ToPagedListAsync(
+            query.Page, query.PageSize,
+            query.SortBy, query.SortOrder,
+            defaultSortBy: "CreatedAt");
+
+        return _mapper.MapPagedList<GroupBuyingRequest, GroupBuyingRequestResponseDto>(result);
+    }
+}

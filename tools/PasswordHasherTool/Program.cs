@@ -1,4 +1,4 @@
-﻿using FlashOffer.API.Shared.Common.Helpers;
+﻿using Kindi.API.Shared.Common.Helpers;
 
 Console.WriteLine("╔════════════════════════════════════════╗");
 Console.WriteLine("║       PASSWORD HASHER TOOL            ║");

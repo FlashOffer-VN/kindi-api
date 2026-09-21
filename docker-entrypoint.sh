@@ -1,3 +1,3 @@
 #!/bin/sh
 export ASPNETCORE_URLS="http://+:${PORT:-8080}"
-exec dotnet FlashOffer.API.WebApi.dll
+exec dotnet Kindi.API.WebApi.dll

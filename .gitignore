@@ -7,7 +7,7 @@ logs/
 *.log
 *.db
 *.sqlite
-# EF migrations under src/FlashOffer.API.Infrastructure/Data/Migrations are tracked in git
+# EF migrations under src/Kindi.API.Infrastructure/Data/Migrations are tracked in git
 appsettings.Development.json
 appsettings.Production.json
 appsettings.Staging.json

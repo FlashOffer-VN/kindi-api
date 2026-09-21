@@ -1,0 +1,10 @@
+﻿namespace Kindi.API.Domain.Entities;
+
+public class Tag : BaseEntity
+{
+    public string? TagCode { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public int UsageCount { get; set; } = 0;
+
+    public virtual ICollection<PostTag> PostTags { get; set; } = new List<PostTag>();
+}

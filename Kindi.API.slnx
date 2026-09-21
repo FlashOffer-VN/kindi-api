@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Kindi.API.Application/Kindi.API.Application.csproj" />
+    <Project Path="src/Kindi.API.Domain/Kindi.API.Domain.csproj" />
+    <Project Path="src/Kindi.API.Infrastructure/Kindi.API.Infrastructure.csproj" />
+    <Project Path="src/Kindi.API.Shared/Kindi.API.Shared.csproj" />
+    <Project Path="src/Kindi.API.WebApi/Kindi.API.WebApi.csproj" />
+    <Project Path="docs/Kindi.API.Documentation/Kindi.API.Documentation.csproj" />
+  </Folder>
+</Solution>
